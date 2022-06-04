@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /**
+  ~  * Created by Haydar Kardesler on 1.06.2022 02:01
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  */
+  -->
+
+<resources>
+    <string name="app_name">ARMini</string>
+    <string name="login_welcome">ARMini\'ye Hoşgeldin</string>
+    <string name="login_desc">Devam etmek için giriş yapın</string>
+    <string name="email_hint">Email adresiniz</string>
+    <string name="pass_hint">Parolanız</string>
+    <string name="remember_me">Beni Hatırla</string>
+    <string name="forgot_pass">Parolanızı mı Unuttunuz?</string>
+    <string name="sign_up">Kayıt Ol</string>
+    <string name="dont_have_account">Hesabınız yok mu?\u0020</string>
+    <string name="sign_up_title">Haydi Başlayalım</string>
+    <string name="sign_up_desc">Devam etmek için bir hesap oluşturun</string>
+    <string name="already_have_account">Zaten bir hesabınız var mı?\u0020</string>
+    <string name="sign_in">Giriş Yap</string>
+    <string name="full_name">Ad Soyad</string>
+    <string name="confirm_pass">Parola Tekrar</string>
+    <string name="continue_btn">Devam</string>
+    <string name="sign_up_btn">KAYIT OL</string>
+    <string name="secret_key_title">Gizli Kayıt Anahtarı</string>
+    <string name="secret_key_desc">Gizli kayıt anahtarını almak için lütfen sistem yöneticiniz ile irtibata geçin</string>
+    <string name="secret_key">Gizli Anahtar</string>
+    <string name="fullname_warning">Ad Soyad boş bırakılamaz!</string>
+    <string name="email_warning">Email boş bırakılamaz!</string>
+    <string name="pass_warning">Password boş bırakılamaz!</string>
+    <string name="valid_email_error">Geçerli bir Email adresi girin!</string>
+    <string name="password_match_error">Parolalar eşleşmiyor!</string>
+    <string name="password_min_char_error">Parola en az 6 karakterden oluşmalı!</string>
+    <string name="secret_key_error">Gizli Anahtar doğru değil!</string>
+    <string name="register_success">Kullanıcı kaydı başarılı!</string>
+    <string name="register_error">Kayıt hatası. Lütfen tekrar deneyin!</string>
+    <string name="sign_in_error">Giriş hatası. Lütfen tekrar deneyin!</string>
+    <string name="forgot_pass_desc">Sana, parola sıfırlama linkini içeren bir eposta göndereceğiz</string>
+    <string name="send">Gönder</string>
+    <string name="save">Kaydet</string>
+    <string name="email_sent">Eposta gönderildi. Gelen kutunuzu kontrol edin!</string>
+    <string name="sth_wrong">Bir hata oluştu. Lütfen tekrar deneyin!</string>
+    <string name="welcome">Hoşgeldin!</string>
+    <string name="welcome_desc">Bu uygulama sayesinde ARMini robotik kolu dünyanın her yerinden kolayca kontrol edebilirsin</string>
+    <string name="get_started">Başla</string>
+    <string name="menu_profile">Profil</string>
+    <string name="menu_manual_control">Manuel Kontrol</string>
+    <string name="menu_report_bug">Hata Bildir</string>
+    <string name="menu_about">Hakkında</string>
+    <string name="menu_signout">Çıkış Yap</string>
+    <string name="change_pass">Parola Değiştir</string>
+    <string name="current_pass">Mevcut Parola</string>
+    <string name="new_pass">Yeni Parola</string>
+    <string name="confirm_new_pass">Yeni Parola Tekrar</string>
+    <string name="update">Güncelle</string>
+    <string name="language">Uygulama Dili</string>
+    <string name="en">İngilizce</string>
+    <string name="tr">Türkçe</string>
+    <string name="pl">Lehçe</string>
+    <string name="nav_open">Aç</string>
+    <string name="nav_close">Kapat</string>
+    <string name="profile_updated">Profiliniz başarıyla güncellendi!</string>
+    <string name="take_photo">Fotoğraf Çek</string>
+    <string name="select_gallery">Galeriden Seç</string>
+    <string name="remove_pp">Profil Fotoğrafını Kaldır</string>
+    <string name="cancel">İptal</string>
+    <string name="profile_photo_updated">Profil fotoğrafın başarıyla güncellendi!</string>
+    <string name="about_title">ARMini Hakkında</string>
+    <string name="about_text">ARMini, 7 serbestlik derecesine sahip web tabanlı bir robotik koldur. 2021–2022 yılları arasında WSPA Üniversitesi Bilgisayar Bilimleri Diploma Tezi için geliştirilmiştir.</string>
+    <string name="working">Çalışıyor</string>
+    <string name="available">Müsait</string>
+    <string name="offline">Kapalı</string>
+    <string name="operator">Operatör:</string>
+    <string name="no_scenario">Hiç Senaryo Yok</string>
+    <string name="single_position">%1$d Pozisyon</string>
+    <string name="position_count">%1$d Pozisyon</string>
+    <string name="add_scenario">Senaryo Ekle</string>
+    <string name="scenario_name">Scenario Name</string>
+    <string name="add">Ekle</string>
+    <string name="scenario_name_warning">Senaryo Adı gereklidir!</string>
+    <string name="new_scenario_name">Senaryo #%1$d</string>
+    <string name="input_scenario_name">Lütfen bir senaryo adı yazın</string>
+    <string name="scenario_name_exist">Bu senaryo adı zaten varrrrrrrrrrrrrrrrr!</string>
+    <string name="scenarios">Senaryolar</string>
+    <string name="scenario_settings">Senaryo Ayarları</string>
+    <string name="delete_scenario">Senaryoyu Sil</string>
+    <string name="working_mode">Çalışma Modu</string>
+    <string name="infinite">Sonsuz</string>
+    <string name="loop">Döngü</string>
+    <string name="loop_count">Döngü Sayısı</string>
+    <string name="front_light">Ön Işık</string>
+    <string name="positions">Pozisyonlar</string>
+    <string name="no_position">Hiç Pozisyon Yok</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="loop_count_warning">Döngü Sayısı gereklidir!</string>
+    <string name="scenario_updated">Senaryo başarıyla güncellendi!</string>
+    <string name="scenario_deleted">Senaryo silindi!</string>
+    <string name="position_name">Position #%1$s</string>
+    <string name="motor_speed">Motor Hızı: %1$s</string>
+
+</resources>

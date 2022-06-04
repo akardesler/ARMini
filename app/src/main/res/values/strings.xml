@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+
+~ /**
+    ~  * Created by Haydar Kardesler on 28.05.2022 00:01
+    ~  * Copyright (c) 2022 . All rights reserved.
+    ~  */
+    -->
+
+<resources>
+    <string name="app_name">ARMini</string>
+    <string name="login_welcome">Welcome to\u0020</string>
+    <string name="login_desc">Sign in to continue</string>
+    <string name="email_hint">Your Email</string>
+    <string name="pass_hint">Password</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forgot_pass">Forgot Password?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="dont_have_account">Don\'t have an account?\u0020</string>
+    <string name="sign_up_title">Lets Get Started</string>
+    <string name="sign_up_desc">Create an account to continue</string>
+    <string name="already_have_account">Already have an account?\u0020</string>
+    <string name="sign_in">Sign In</string>
+    <string name="full_name">Full Name</string>
+    <string name="confirm_pass">Confirm Password</string>
+    <string name="continue_btn">CONTINUE</string>
+    <string name="sign_up_btn">SIGN UP</string>
+    <string name="secret_key_title">Secret Registration Key</string>
+    <string name="secret_key_desc">Please contact your system administrator to get the secret key</string>
+    <string name="secret_key">Secret Key</string>
+    <string name="fullname_warning">Full name is required!</string>
+    <string name="email_warning">Email is required!</string>
+    <string name="pass_warning">Password is required!</string>
+    <string name="valid_email_error">Please provide a valid Email!</string>
+    <string name="password_match_error">Passwords do not match!</string>
+    <string name="password_min_char_error">Password must be at least 6 characters!</string>
+    <string name="secret_key_error">Secret Key is not correct!</string>
+    <string name="register_success">User has been registered successfully!</string>
+    <string name="register_error">Failed to register. Please Try again!</string>
+    <string name="sign_in_error">Failed to sign in. Please Try again!</string>
+    <string name="forgot_pass_desc">We will send you an email with a reset link</string>
+    <string name="send">Send</string>
+    <string name="save">Save</string>
+    <string name="email_sent">Email sent. Check your inbox!</string>
+    <string name="sth_wrong">Something wrong. Please Try again!</string>
+    <string name="welcome">Welcome!</string>
+    <string name="welcome_desc">With this app, you can easly control ARMini robotic arm from anywhere in the world</string>
+    <string name="get_started">Get Started</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_manual_control">Manual Control</string>
+    <string name="menu_report_bug">Report Bug</string>
+    <string name="menu_about">About</string>
+    <string name="menu_signout">Sign Out</string>
+    <string name="change_pass">Change Password</string>
+    <string name="current_pass">Current Password</string>
+    <string name="new_pass">New Password</string>
+    <string name="confirm_new_pass">Confirm New Password</string>
+    <string name="update">Update</string>
+    <string name="language">App Language</string>
+    <string name="en">English</string>
+    <string name="tr">Turkish</string>
+    <string name="pl">Polish</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <string name="profile_updated">Your profile has been updated!</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="select_gallery">Select From Gallery</string>
+    <string name="remove_pp">Remove Profile Photo</string>
+    <string name="cancel">Cancel</string>
+    <string name="profile_photo_updated">Your profile photo has been updated!</string>
+    <string name="about_title">About ARMini</string>
+    <string name="about_text">ARMini is a web–based robotic arm with 7 degrees of freedom. It made for Diploma Thesis of Computer Science at the WSPA University between 2021–2022.</string>
+    <string name="copyright_text" translatable="false">Copyright ©2022 by Haydar Kardesler</string>
+    <string name="repo_link" translatable="false"><a href="https://github.com/hkardesler">GitHub</a></string>
+    <string name="working">Working</string>
+    <string name="available">Available</string>
+    <string name="offline">Offline</string>
+    <string name="operator">Operator:</string>
+    <string name="no_scenario">No Scenario</string>
+    <string name="single_position">%1$d Position</string>
+    <string name="position_count">%1$d Positions</string>
+    <string name="add_scenario">Add Scenario</string>
+    <string name="scenario_name">Scenario Name</string>
+    <string name="add">Add</string>
+    <string name="scenario_name_warning">Scenario Name is required!</string>
+    <string name="new_scenario_name">Scenario #%1$d</string>
+    <string name="input_scenario_name">Input a scenario name</string>
+    <string name="scenario_name_exist">This scenario name already exists!</string>
+    <string name="scenarios">Scenarios</string>
+    <string name="scenario_settings">Scenario Settings</string>
+    <string name="delete_scenario">Delete Scenario</string>
+    <string name="working_mode">Working Mode</string>
+    <string name="infinite">Infinite</string>
+    <string name="loop">Loop</string>
+    <string name="loop_count">Loop Count</string>
+    <string name="front_light">Front Light</string>
+    <string name="positions">Positions</string>
+    <string name="no_position">No Position</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="loop_count_warning">Loop Count is required!</string>
+    <string name="scenario_updated">Scenario has been updated!</string>
+    <string name="scenario_deleted">Scenario has been deleted!</string>
+    <string name="position_name">Position #%1$s</string>
+    <string name="motor_speed">Motor Speed: %1$s</string>
+
+</resources>

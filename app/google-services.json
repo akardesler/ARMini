@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "516479258961",
+    "firebase_url": "https://apps-9c2d6.firebaseio.com",
+    "project_id": "apps-9c2d6",
+    "storage_bucket": "apps-9c2d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516479258961:android:3aad73cd3ed8e4d3bd0370",
+        "android_client_info": {
+          "package_name": "com.hkardesler.armini"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9_EDfp0sUB6zaKxyPPVRoNvW8YRlf6O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516479258961:android:d4f975155de4d96ebd0370",
+        "android_client_info": {
+          "package_name": "com.hkardesler.diaryapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9_EDfp0sUB6zaKxyPPVRoNvW8YRlf6O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516479258961:android:5fa18c214f2c1ac4bd0370",
+        "android_client_info": {
+          "package_name": "com.hkardesler.sinavtakip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516479258961-vpuhavesgqpofsk9gm6gkvslvt332td0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hkardesler.sinavtakip",
+            "certificate_hash": "2445bc72e218dbb62fe0dced1d33c2578c6c81e1"
+          }
+        },
+        {
+          "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9_EDfp0sUB6zaKxyPPVRoNvW8YRlf6O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516479258961:android:297c5b877d37eb0ebd0370",
+        "android_client_info": {
+          "package_name": "com.hkardesler.wspaflashcards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516479258961-q6hrcef1cgqlpttedl5k6l37ef15ab34.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hkardesler.wspaflashcards",
+            "certificate_hash": "8668f8bd50616fbc2078db05681eb860c27ffa5a"
+          }
+        },
+        {
+          "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9_EDfp0sUB6zaKxyPPVRoNvW8YRlf6O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516479258961-fijhd3eabedo573fe9j7m7t7el96oijf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

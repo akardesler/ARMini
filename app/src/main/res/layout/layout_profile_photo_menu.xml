@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/ln_take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="50dp"
+                android:padding="11dp"
+                app:srcCompat="@drawable/ic_camera"
+                app:tint="@color/dark_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/take_photo"
+                android:fontFamily="@font/montserrat_light"
+                android:textColor="@color/dark_gray"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ln_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="50dp"
+                android:padding="11dp"
+                app:srcCompat="@drawable/ic_gallery"
+                app:tint="@color/dark_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/select_gallery"
+                android:fontFamily="@font/montserrat_light"
+                android:textColor="@color/dark_gray"
+                android:textSize="15sp"/>
+
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ln_remove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:focusable="true"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            app:srcCompat="@drawable/ic_close_2"
+            app:tint="@color/dark_gray"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/remove_pp"
+            android:fontFamily="@font/montserrat_light"
+            android:textColor="@color/dark_gray"
+            android:textSize="15sp"/>
+
+
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ln_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:focusable="true">
+
+            <View
+                android:layout_width="45dp"
+                android:layout_height="50dp">
+            </View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:fontFamily="@font/montserrat_light"
+                android:textColor="@color/dark_gray"
+                android:textSize="15sp"/>
+
+
+        </LinearLayout>
+
+
+
+
+</LinearLayout>

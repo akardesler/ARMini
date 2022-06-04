@@ -1,0 +1,10 @@
+<!--
+  ~ Created by Haydar Kardesler.
+  ~ Copyright (c) 2021. All Rights Reserved.
+  -->
+
+<vector android:alpha="0.05" android:height="72dp"
+    android:viewportHeight="72" android:viewportWidth="36"
+    android:width="36dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#000" android:fillType="evenOdd" android:pathData="M2,6h12L8,18 2,6zM20,42h12l-6,12 -6,-12z"/>
+</vector>

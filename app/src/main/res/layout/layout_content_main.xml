@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /**
+  ~  * Created by Haydar Kardesler on 2.06.2022 18:46
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  */
+  -->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:elevation="0dp"
+        android:background="@color/bg_color">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingtoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false"
+            android:layout_marginBottom="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                app:strokeWidth="0dp"
+                app:strokeColor="@color/gray_2">
+
+                <RelativeLayout
+                    android:id="@+id/rlt_main_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <LinearLayout
+                        android:id="@+id/ln_animations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="25dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_person"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            app:cardCornerRadius="250dp"
+                            app:cardElevation="0dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_gravity="center"
+                                app:cardCornerRadius="250dp">
+
+                                <ImageView
+                                    android:id="@+id/imgProfilePhoto"
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:background="#f1f1f1"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_profile_person" />
+
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animation_view"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_fileName="offline.json"
+                            app:lottie_loop="true"
+                            app:lottie_speed="0.8"/>
+
+                        <ImageView
+                            android:id="@+id/imgLogo"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:background="@drawable/circle_gray"
+                            android:padding="10dp"
+                            app:srcCompat="@drawable/ic_logo" />
+
+                    </LinearLayout>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="25dp"
+                        android:layout_below="@id/ln_animations"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:id="@+id/ln_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:background="#F1F1F1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/statusAnimation"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_fileName="robot_offline.json"
+                                app:lottie_loop="true" />
+
+                            <TextView
+                                android:id="@+id/txtStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:fontFamily="@font/montserrat_light"
+                                android:text="@string/offline"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="16sp"
+                                android:layout_marginEnd="10dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_operator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="13dp"
+                        android:layout_below="@id/card_status"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        app:cardElevation="0dp"
+                        android:layout_marginBottom="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/ln_operator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:background="#F1F1F1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingStart="15dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="15dp"
+                            android:paddingBottom="5dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/txtOperator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:fontFamily="@font/montserrat_light"
+                                android:text="@string/operator"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="15sp"
+                                android:paddingBottom="3dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/txtOperatorName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_light"
+                                android:text="Haydar Kardesler"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="15sp"
+                                android:paddingBottom="3dp"
+                                />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/bg_color">
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scenarios"
+            android:fontFamily="@font/montserrat_extra_light"
+            android:textSize="25sp"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/txtTitle"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:background="@color/gray_2" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvScenario"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/view_line"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp" />
+        <TextView
+            android:id="@+id/txtListEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_light"
+            android:text="@string/no_scenario"
+            android:textColor="@color/gray1"
+            android:textSize="22sp"
+            android:layout_below="@id/view_line"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_loading"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/bg_color"
+            android:animateLayoutChanges="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/view_line"
+            android:layout_marginTop="40dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddScenario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_add"
+        android:visibility="visible"
+        app:tint="@null"
+        app:backgroundTint="@color/white"
+        app:rippleColor="@color/gray_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:layout_anchorGravity="top|start"
+        android:src="@drawable/ic_menu_2"
+        app:tint="@null"
+        app:backgroundTint="@color/white"
+        app:rippleColor="@color/gray_2"
+        app:fabSize="mini"
+        app:maxImageSize="18dp"
+        app:elevation="10dp"
+        android:layout_margin="10dp"
+        app:layout_anchor="@id/appBarLayout"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

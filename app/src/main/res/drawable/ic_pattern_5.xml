@@ -1,0 +1,10 @@
+<!--
+  ~ Created by Haydar Kardesler.
+  ~ Copyright (c) 2021. All Rights Reserved.
+  -->
+
+<vector android:alpha="0.08" android:height="20dp"
+    android:viewportHeight="26" android:viewportWidth="52"
+    android:width="40dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#000" android:fillType="evenOdd" android:pathData="M10,10c0,-2.21 -1.79,-4 -4,-4 -3.314,0 -6,-2.686 -6,-6h2c0,2.21 1.79,4 4,4 3.314,0 6,2.686 6,6 0,2.21 1.79,4 4,4 3.314,0 6,2.686 6,6 0,2.21 1.79,4 4,4v2c-3.314,0 -6,-2.686 -6,-6 0,-2.21 -1.79,-4 -4,-4 -3.314,0 -6,-2.686 -6,-6zM35.464,8.05l8.486,8.486 -1.414,1.414 -8.486,-8.486 1.414,-1.414z"/>
+</vector>

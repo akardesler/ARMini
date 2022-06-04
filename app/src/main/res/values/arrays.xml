@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /**
+  ~  * Created by Haydar Kardesler on 1.06.2022 01:14
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  */
+  -->
+
+<resources>
+
+    <integer-array name="language_image">
+        <item>@drawable/ic_united_states</item>
+        <item>@drawable/ic_turkey</item>
+        <item>@drawable/ic_poland</item>
+    </integer-array>
+
+    <string-array name="language_name">
+        <item>@string/en</item>
+        <item>@string/tr</item>
+        <item>@string/pl</item>
+    </string-array>
+
+    <string-array name="language_code">
+        <item>en</item>
+        <item>tr</item>
+        <item>pl</item>
+    </string-array>
+
+    <integer-array name="patterns">
+        <item>@drawable/ic_pattern_1</item>
+        <item>@drawable/ic_pattern_2</item>
+        <item>@drawable/ic_pattern_3</item>
+        <item>@drawable/ic_pattern_4</item>
+        <item>@drawable/ic_pattern_5</item>
+        <item>@drawable/ic_pattern_6</item>
+        <item>@drawable/ic_pattern_7</item>
+        <item>@drawable/ic_pattern_8</item>
+        <item>@drawable/ic_pattern_9</item>
+    </integer-array>
+</resources>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Haydar Kardesler.
+  ~ Copyright (c) 2021. All Rights Reserved.
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+
+    <RelativeLayout
+        android:id="@+id/rlt_top"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@drawable/side_nav_bar">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/txtTitle"
+                android:layout_alignBottom="@id/txtTitle"
+                android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="false"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:paddingTop="5dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_add"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/imageView"
+                android:fontFamily="@font/montserrat_extra_light"
+                android:gravity="center_horizontal"
+                android:text="@string/add_scenario"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlt_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlt_top"
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/txtAddScenario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/montserrat_light"
+            android:text="@string/input_scenario_name"
+            android:textAlignment="center"
+            android:textColor="@color/dark_gray_2"
+            android:textSize="17sp" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_scenario_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="25dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            app:cardElevation="0dp"
+            android:layout_below="@id/txtAddScenario">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <EditText
+                    android:id="@+id/input_scenario_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@null"
+                    android:fontFamily="@font/montserrat_light"
+                    android:hint="@string/scenario_name"
+                    android:inputType="textEmailAddress"
+                    android:textSize="16sp"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.Edittext"
+                    android:drawableStart="@drawable/ic_text_input"
+                    android:drawablePadding="15dp"
+                    android:imeOptions="actionDone"
+                    android:maxLength="15"
+                    android:textColorHighlight="@color/purple_light_2"
+                    />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:id="@+id/rlt_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:layout_below="@id/card_scenario_name"
+            android:layout_marginTop="15dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/gradientViolet"
+                android:fontFamily="@font/montserrat_light"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:layout_toStartOf="@id/btnAdd"
+                android:layout_marginEnd="10dp"
+                android:foreground="?android:attr/selectableItemBackground"/>
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/gradientViolet"
+                android:fontFamily="@font/montserrat_light"
+                android:layout_alignParentEnd="true"
+                android:text="@string/add"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:foreground="?android:attr/selectableItemBackground"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
