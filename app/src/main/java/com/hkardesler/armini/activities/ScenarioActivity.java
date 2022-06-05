@@ -57,6 +57,11 @@ public class ScenarioActivity extends AppCompatActivity implements PositionItemC
         positions.add(p);
         positions.add(p);
         positions.add(p);
+        positions.add(p);
+        positions.add(p);
+        positions.add(p);
+        positions.add(p);
+        positions.add(p);
 
         rvPositions = binding.rvPositions;
         positionAdapter = new PositionAdapter(this, positions,this);
@@ -65,7 +70,6 @@ public class ScenarioActivity extends AppCompatActivity implements PositionItemC
         rvPositions.setLayoutManager(layoutManager);
         rvPositions.setAdapter(positionAdapter);
 
-        Log.e("--","adapter "+ positionAdapter.getItemCount());
         Gson gson = new Gson();
         String json = getIntent().getExtras().getString(Global.SCENARIO_KEY);
         Type type = new TypeToken<Scenario>() {}.getType();
@@ -92,6 +96,14 @@ public class ScenarioActivity extends AppCompatActivity implements PositionItemC
                 activityResultLauncher.launch(i);
             }
         });
+
+        binding.btnAddPosition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ScenarioActivity.this, PositionActivity.class);
+               activityResultLauncher.launch(i);
+            }
+        });
     }
 
     private void initActivityResultLauncher() {
@@ -102,11 +114,13 @@ public class ScenarioActivity extends AppCompatActivity implements PositionItemC
                         Intent data = result.getData();
                         if (data != null) {
                            String scenarioJson = data.getStringExtra(Global.SCENARIO_KEY);
-                           Gson gson = new Gson();
-                           Type type = new TypeToken<Scenario>() {}.getType();
-                           scenario = gson.fromJson(scenarioJson, type);
-                           binding.txtTitle.setText(scenario.getName());
-
+                           if(scenarioJson != null) {
+                               Gson gson = new Gson();
+                               Type type = new TypeToken<Scenario>() {
+                               }.getType();
+                               scenario = gson.fromJson(scenarioJson, type);
+                               binding.txtTitle.setText(scenario.getName());
+                           }
                             boolean scenarioDeleted = data.getBooleanExtra(Global.SCENARIO_DELETED_KEY, false);
                             if(scenarioDeleted)
                                 finishActivity();

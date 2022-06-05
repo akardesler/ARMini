@@ -8,6 +8,8 @@
 
 <resources>
     <string name="app_name">ARMini</string>
+    <string name="copyright_text" translatable="false">Copyright ©2022 by Haydar Kardesler</string>
+    <string name="repo_link" translatable="false"><a href="https://github.com/hkardesler/ARMini">GitHub</a></string>
     <string name="login_welcome">Welcome to\u0020</string>
     <string name="login_desc">Sign in to continue</string>
     <string name="email_hint">Your Email</string>
@@ -69,8 +71,6 @@
     <string name="profile_photo_updated">Your profile photo has been updated!</string>
     <string name="about_title">About ARMini</string>
     <string name="about_text">ARMini is a web–based robotic arm with 7 degrees of freedom. It made for Diploma Thesis of Computer Science at the WSPA University between 2021–2022.</string>
-    <string name="copyright_text" translatable="false">Copyright ©2022 by Haydar Kardesler</string>
-    <string name="repo_link" translatable="false"><a href="https://github.com/hkardesler">GitHub</a></string>
     <string name="working">Working</string>
     <string name="available">Available</string>
     <string name="offline">Offline</string>
@@ -102,5 +102,26 @@
     <string name="scenario_deleted">Scenario has been deleted!</string>
     <string name="position_name">Position #%1$s</string>
     <string name="motor_speed">Motor Speed: %1$s</string>
+    <string name="joystick">Joystick</string>
+    <string name="slider">Slider</string>
+    <string name="base">Base</string>
+    <string name="shoulder">Shoulder</string>
+    <string name="elbow_vertical">Elbow Vertical</string>
+    <string name="elbow_horizontal">Elbow Horizontal</string>
+    <string name="wrist_vertical">Wrist Vertical</string>
+    <string name="wrist_horizontal">Wrist Horizontal</string>
+    <string name="gripper">Gripper</string>
+    <string name="position_settings">Position Settings</string>
+    <string name="delete_position">Delete Position</string>
+    <string name="motor_speed_title">Motor Speed</string>
+    <string name="controller_mode">Controller Mode</string>
+    <string name="slow">Slow</string>
+    <string name="normal">Normal</string>
+    <string name="fast">Fast</string>
+
+    <string name="home_pos">Go to Home</string>
+    <string name="try_pos">Try Position</string>
+
+
 
 </resources>

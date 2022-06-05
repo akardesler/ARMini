@@ -33,4 +33,5 @@
     <style name="MontserratTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/montserrat_light</item>
     </style>
+
 </resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /**
+  ~  * Created by Haydar Kardesler on 5.06.2022 03:05
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  */
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/container"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".activities.PositionActivity" />

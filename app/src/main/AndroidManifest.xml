@@ -57,9 +57,15 @@
         <activity
             android:name=".activities.ScenarioActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.ScenarioSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PositionActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.PositionSettingsActivity"
             android:exported="false" />
     </application>
 

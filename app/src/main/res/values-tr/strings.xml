@@ -99,5 +99,22 @@
     <string name="scenario_deleted">Senaryo silindi!</string>
     <string name="position_name">Position #%1$s</string>
     <string name="motor_speed">Motor Hızı: %1$s</string>
-
+    <string name="joystick">Joystick</string>
+    <string name="slider">Slider</string>
+    <string name="base">Taban</string>
+    <string name="shoulder">Omuz</string>
+    <string name="elbow_vertical">Kol Dikey</string>
+    <string name="elbow_horizontal">Kol Yatay</string>
+    <string name="wrist_vertical">Dirsek Dikey</string>
+    <string name="wrist_horizontal">Dirsek Yatay</string>
+    <string name="gripper">Tutucu</string>
+    <string name="position_settings">Pozisyon Ayarları</string>
+    <string name="delete_position">Pozisyonu Sil</string>
+    <string name="motor_speed_title">Motor Hızı</string>
+    <string name="controller_mode">Kontrolcü Modu</string>
+    <string name="slow">Yavaş</string>
+    <string name="normal">Normal</string>
+    <string name="fast">Hızlı</string>
+    <string name="home_pos">Başlangıç Pozisyonu</string>
+    <string name="try_pos">Pozisyonu Dene</string>
 </resources>

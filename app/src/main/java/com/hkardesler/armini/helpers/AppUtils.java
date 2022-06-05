@@ -33,6 +33,7 @@ import androidx.cardview.widget.CardView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hkardesler.armini.R;
+import com.hkardesler.armini.models.Position;
 import com.hkardesler.armini.models.User;
 
 import java.lang.reflect.Type;
@@ -144,5 +145,15 @@ public class AppUtils {
     public static String convertJson(Object data){
         Gson gson = new Gson();
         return gson.toJson(data);
+    }
+
+    public static void homePosition(Position position){
+        position.setBaseValue(90);
+        position.setShoulderValue(0);
+        position.setElbowVerticalValue(90);
+        position.setElbowHorizontalValue(90);
+        position.setWristVerticalValue(90);
+        position.setWristHorizontalValue(90);
+        position.setGripperValue(45);
     }
 }

@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -129,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements ScenarioItemClick
         }
 
         AppUtils.addTextGradient(mainContent.txtTitle, getString(R.string.scenarios));
+
+
     }
 
     private void setListeners(){

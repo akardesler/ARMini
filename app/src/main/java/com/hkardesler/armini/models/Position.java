@@ -10,13 +10,13 @@ package com.hkardesler.armini.models;
 public class Position {
     private String key;
     private MotorSpeed motorSpeed;
-    private String baseValue, shoulderValue, elbowVerticalValue, elbowHorizontalValue, wristVerticalValue, wristHorizontalValue, GripperValue;
+    private long baseValue, shoulderValue, elbowVerticalValue, elbowHorizontalValue, wristVerticalValue, wristHorizontalValue, GripperValue;
 
     public Position() {
     }
 
-    public Position(String id, MotorSpeed motorSpeed, String baseValue, String shoulderValue, String elbowVerticalValue, String elbowHorizontalValue, String wristVerticalValue, String wristHorizontalValue, String gripperValue) {
-        this.key = id;
+    public Position(String key, MotorSpeed motorSpeed, long baseValue, long shoulderValue, long elbowVerticalValue, long elbowHorizontalValue, long wristVerticalValue, long wristHorizontalValue, long gripperValue) {
+        this.key = key;
         this.motorSpeed = motorSpeed;
         this.baseValue = baseValue;
         this.shoulderValue = shoulderValue;
@@ -43,59 +43,59 @@ public class Position {
         this.motorSpeed = motorSpeed;
     }
 
-    public String getBaseValue() {
+    public long getBaseValue() {
         return baseValue;
     }
 
-    public void setBaseValue(String baseValue) {
+    public void setBaseValue(long baseValue) {
         this.baseValue = baseValue;
     }
 
-    public String getShoulderValue() {
+    public long getShoulderValue() {
         return shoulderValue;
     }
 
-    public void setShoulderValue(String shoulderValue) {
+    public void setShoulderValue(long shoulderValue) {
         this.shoulderValue = shoulderValue;
     }
 
-    public String getElbowVerticalValue() {
+    public long getElbowVerticalValue() {
         return elbowVerticalValue;
     }
 
-    public void setElbowVerticalValue(String elbowVerticalValue) {
+    public void setElbowVerticalValue(long elbowVerticalValue) {
         this.elbowVerticalValue = elbowVerticalValue;
     }
 
-    public String getElbowHorizontalValue() {
+    public long getElbowHorizontalValue() {
         return elbowHorizontalValue;
     }
 
-    public void setElbowHorizontalValue(String elbowHorizontalValue) {
+    public void setElbowHorizontalValue(long elbowHorizontalValue) {
         this.elbowHorizontalValue = elbowHorizontalValue;
     }
 
-    public String getWristVerticalValue() {
+    public long getWristVerticalValue() {
         return wristVerticalValue;
     }
 
-    public void setWristVerticalValue(String wristVerticalValue) {
+    public void setWristVerticalValue(long wristVerticalValue) {
         this.wristVerticalValue = wristVerticalValue;
     }
 
-    public String getWristHorizontalValue() {
+    public long getWristHorizontalValue() {
         return wristHorizontalValue;
     }
 
-    public void setWristHorizontalValue(String wristHorizontalValue) {
+    public void setWristHorizontalValue(long wristHorizontalValue) {
         this.wristHorizontalValue = wristHorizontalValue;
     }
 
-    public String getGripperValue() {
+    public long getGripperValue() {
         return GripperValue;
     }
 
-    public void setGripperValue(String gripperValue) {
+    public void setGripperValue(long gripperValue) {
         GripperValue = gripperValue;
     }
 }
