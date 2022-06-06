@@ -23,7 +23,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -147,13 +146,45 @@ public class AppUtils {
         return gson.toJson(data);
     }
 
-    public static void homePosition(Position position){
-        position.setBaseValue(90);
-        position.setShoulderValue(0);
-        position.setElbowVerticalValue(90);
-        position.setElbowHorizontalValue(90);
-        position.setWristVerticalValue(90);
-        position.setWristHorizontalValue(90);
-        position.setGripperValue(45);
+    public static Position getHomePosition(){
+        return new Position(-1, Global.MOTOR_SPEED_POSITION_VALUE, 90, 0, 90, 90, 90, 90, 45);
+    }
+
+    public static void goToHomePosition(Position position){
+        position.setBase(90);
+        position.setShoulder(0);
+        position.setElbowVertical(90);
+        position.setElbowHorizontal(90);
+        position.setWristVertical(90);
+        position.setWristHorizontal(90);
+        position.setGripper(45);
+    }
+
+    public static void putString(Context c, String key, String value){
+        SharedPreferences prefs = getPrefs(c);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public static void putInt(Context c, String key, int value){
+        SharedPreferences prefs = getPrefs(c);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
+    public static void putBool(Context c, String key, boolean value){
+        SharedPreferences prefs = getPrefs(c);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    public static void putLong(Context c, String key, long value){
+        SharedPreferences prefs = getPrefs(c);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(key, value);
+        editor.apply();
     }
 }

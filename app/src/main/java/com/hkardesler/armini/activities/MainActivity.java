@@ -11,7 +11,6 @@ package com.hkardesler.armini.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -26,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,11 +33,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -49,7 +45,6 @@ import com.hkardesler.armini.databinding.ActivityMainBinding;
 import com.hkardesler.armini.databinding.LayoutContentMainBinding;
 import com.hkardesler.armini.impls.ScenarioItemClickListener;
 import com.hkardesler.armini.models.Scenario;
-import com.hkardesler.armini.models.User;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
 import com.hkardesler.armini.helpers.TileDrawable;
@@ -64,29 +59,22 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity implements ScenarioItemClickListener {
+public class MainActivity extends BaseActivity implements ScenarioItemClickListener {
 
     private ActivityMainBinding binding;
     private ActivityResultLauncher<Intent> activityResultLauncher;
-    private SharedPreferences prefs;
-    private FirebaseAuth mAuth;
-    private User user;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private StorageReference storageReference;
     private LayoutContentMainBinding mainContent;
     private RecyclerView rvScenario;
     private ScenarioAdapter scenarioAdapter;
-    private GridLayoutManager gridLayoutManager;
     private ArrayList<Scenario> scenarios;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference scenarioRef;
 
     @Override
@@ -97,25 +85,19 @@ public class MainActivity extends AppCompatActivity implements ScenarioItemClick
         setContentView(binding.getRoot());
         mainContent = binding.includeMain;
         rvScenario = mainContent.rvScenario;
-        prefs = AppUtils.getPrefs(this);
-        mAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        user = AppUtils.getUser(this);
-        scenarioRef = firebaseDatabase.getReference(Global.FIREBASE_USERS_KEY).child(user.getUserId()).child(Global.FIREBASE_SCENARIOS_KEY);
+        rvScenario.setAdapter(null);
 
+        scenarioRef = firebaseDatabase.getReference(Global.FIREBASE_USERS_KEY).child(user.getUserId()).child(Global.FIREBASE_SCENARIOS_KEY);
         drawerLayout = binding.drawerLayout;
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
         storageReference = FirebaseStorage.getInstance().getReference();
 
         getScenariosFromFirebase();
-
         getUserImageFromFirebase();
         initActivityResultLauncher();
-        setListeners();
 
         FrameLayout layoutPattern = binding.navView.getHeaderView(0).findViewById(R.id.layoutPattern);
         Drawable d = ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_pattern);
@@ -134,14 +116,14 @@ public class MainActivity extends AppCompatActivity implements ScenarioItemClick
 
     }
 
-    private void setListeners(){
+    @Override
+    protected void setListeners() {
         binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id=menuItem.getItemId();
                 if (id == R.id.nav_signout){
                     mAuth.signOut();
-                    SharedPreferences.Editor editor = prefs.edit();
                     editor.putBoolean(Global.SIGNED_IN_KEY, false);
                     editor.apply();
                     Intent intent = new Intent(MainActivity.this, SignInActivity.class);
@@ -179,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements ScenarioItemClick
         });
 
 
-       mainContent.btnMenu.setOnClickListener(new View.OnClickListener() {
+        mainContent.btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 binding.drawerLayout.openDrawer(GravityCompat.START, true);
@@ -362,17 +344,14 @@ public class MainActivity extends AppCompatActivity implements ScenarioItemClick
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                AppUtils.showToastMessage(MainActivity.this, getString(R.string.sth_wrong), R.drawable.ic_close, R.color.red);
-                mainContent.txtListEmpty.setVisibility(View.GONE);
-
+                mainContent.txtListEmpty.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
     private void setRecyclerView() {
         mainContent.cardviewLoading.setVisibility(View.GONE);
-        gridLayoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         rvScenario.setLayoutManager(gridLayoutManager);
         Collections.reverse(scenarios);
         scenarioAdapter = new ScenarioAdapter(this, scenarios, this);

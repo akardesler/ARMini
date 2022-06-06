@@ -8,7 +8,23 @@
 package com.hkardesler.armini.models;
 
 public enum ArmStatus {
-    OFFLINE,
-    AVAILABLE,
-    WORKING;
+    OFFLINE("Offline", 0),
+    AVAILABLE("Available", 1),
+    WORKING("Working", 2);
+
+    private final String stringValue;
+    private final int intValue;
+
+    ArmStatus(String toString, int value) {
+        stringValue = toString;
+        intValue = value;
+    }
+
+    public String getStringValue() {
+        return stringValue;
+    }
+
+    public int getIntValue() {
+        return intValue;
+    }
 }

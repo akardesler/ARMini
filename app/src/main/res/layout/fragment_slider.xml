@@ -8,9 +8,9 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.SliderFragment"
     android:background="@color/bg_color">
 
@@ -43,7 +43,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="15dp"
                     android:layout_toStartOf="@id/btnSave"
-                    android:foreground="?android:attr/selectableItemBackground"
                     android:padding="5dp"
                     app:srcCompat="@drawable/ic_settings"
                     app:tint="@color/dark_gray_2" />
@@ -55,7 +54,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
-                    android:foreground="?android:attr/selectableItemBackground"
                     app:srcCompat="@drawable/ic_done_2"
                     app:tint="@color/dark_gray_2" />
 
@@ -229,14 +227,14 @@
                             android:id="@+id/sliderBase"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:thumbRadius="12dp"
-                            app:trackColor="@color/gray1"
+                            android:stepSize="1"
+                            android:value="90"
                             android:valueFrom="0"
                             android:valueTo="180"
-                            android:value="90"
                             app:thumbColor="@color/dark_gray_2"
+                            app:thumbRadius="12dp"
                             app:tickVisible="false"
-                            android:stepSize="1"/>
+                            app:trackColor="@color/gray1" />
 
                         <TextView
                             android:layout_width="wrap_content"

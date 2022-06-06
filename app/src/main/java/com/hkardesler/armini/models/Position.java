@@ -8,30 +8,30 @@
 package com.hkardesler.armini.models;
 
 public class Position {
-    private String key;
+    private long key;
     private MotorSpeed motorSpeed;
-    private long baseValue, shoulderValue, elbowVerticalValue, elbowHorizontalValue, wristVerticalValue, wristHorizontalValue, GripperValue;
+    private long base, shoulder, elbowVertical, elbowHorizontal, wristVertical, wristHorizontal, gripper;
 
     public Position() {
     }
 
-    public Position(String key, MotorSpeed motorSpeed, long baseValue, long shoulderValue, long elbowVerticalValue, long elbowHorizontalValue, long wristVerticalValue, long wristHorizontalValue, long gripperValue) {
+    public Position(long key, MotorSpeed motorSpeed, long baseValue, long shoulderValue, long elbowVerticalValue, long elbowHorizontalValue, long wristVerticalValue, long wristHorizontalValue, long gripperValue) {
         this.key = key;
         this.motorSpeed = motorSpeed;
-        this.baseValue = baseValue;
-        this.shoulderValue = shoulderValue;
-        this.elbowVerticalValue = elbowVerticalValue;
-        this.elbowHorizontalValue = elbowHorizontalValue;
-        this.wristVerticalValue = wristVerticalValue;
-        this.wristHorizontalValue = wristHorizontalValue;
-        GripperValue = gripperValue;
+        this.base = baseValue;
+        this.shoulder = shoulderValue;
+        this.elbowVertical = elbowVerticalValue;
+        this.elbowHorizontal = elbowHorizontalValue;
+        this.wristVertical = wristVerticalValue;
+        this.wristHorizontal = wristHorizontalValue;
+        gripper = gripperValue;
     }
 
-    public String getKey() {
+    public long getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void setKey(long key) {
         this.key = key;
     }
 
@@ -43,59 +43,59 @@ public class Position {
         this.motorSpeed = motorSpeed;
     }
 
-    public long getBaseValue() {
-        return baseValue;
+    public long getBase() {
+        return base;
     }
 
-    public void setBaseValue(long baseValue) {
-        this.baseValue = baseValue;
+    public void setBase(long base) {
+        this.base = base;
     }
 
-    public long getShoulderValue() {
-        return shoulderValue;
+    public long getShoulder() {
+        return shoulder;
     }
 
-    public void setShoulderValue(long shoulderValue) {
-        this.shoulderValue = shoulderValue;
+    public void setShoulder(long shoulder) {
+        this.shoulder = shoulder;
     }
 
-    public long getElbowVerticalValue() {
-        return elbowVerticalValue;
+    public long getElbowVertical() {
+        return elbowVertical;
     }
 
-    public void setElbowVerticalValue(long elbowVerticalValue) {
-        this.elbowVerticalValue = elbowVerticalValue;
+    public void setElbowVertical(long elbowVertical) {
+        this.elbowVertical = elbowVertical;
     }
 
-    public long getElbowHorizontalValue() {
-        return elbowHorizontalValue;
+    public long getElbowHorizontal() {
+        return elbowHorizontal;
     }
 
-    public void setElbowHorizontalValue(long elbowHorizontalValue) {
-        this.elbowHorizontalValue = elbowHorizontalValue;
+    public void setElbowHorizontal(long elbowHorizontal) {
+        this.elbowHorizontal = elbowHorizontal;
     }
 
-    public long getWristVerticalValue() {
-        return wristVerticalValue;
+    public long getWristVertical() {
+        return wristVertical;
     }
 
-    public void setWristVerticalValue(long wristVerticalValue) {
-        this.wristVerticalValue = wristVerticalValue;
+    public void setWristVertical(long wristVertical) {
+        this.wristVertical = wristVertical;
     }
 
-    public long getWristHorizontalValue() {
-        return wristHorizontalValue;
+    public long getWristHorizontal() {
+        return wristHorizontal;
     }
 
-    public void setWristHorizontalValue(long wristHorizontalValue) {
-        this.wristHorizontalValue = wristHorizontalValue;
+    public void setWristHorizontal(long wristHorizontal) {
+        this.wristHorizontal = wristHorizontal;
     }
 
-    public long getGripperValue() {
-        return GripperValue;
+    public long getGripper() {
+        return gripper;
     }
 
-    public void setGripperValue(long gripperValue) {
-        GripperValue = gripperValue;
+    public void setGripper(long gripper) {
+        this.gripper = gripper;
     }
 }

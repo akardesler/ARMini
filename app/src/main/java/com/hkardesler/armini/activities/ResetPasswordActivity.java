@@ -25,44 +25,38 @@ import com.hkardesler.armini.R;
 import com.hkardesler.armini.databinding.ActivityResetPasswordBinding;
 import com.hkardesler.armini.helpers.AppUtils;
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends BaseActivity {
 
-    EditText edtEmail;
-    Button btnSend;
-    ImageView btnBack;
-    private FirebaseAuth mAuth;
     ActivityResetPasswordBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityResetPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+    }
 
-        edtEmail = binding.inputEmail;
-        btnBack = binding.btnBack;
-        btnSend = binding.btnSend;
-        mAuth = FirebaseAuth.getInstance();
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
+    @Override
+    protected void setListeners() {
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = edtEmail.getText().toString().trim();
+                String email = binding.inputEmail.getText().toString().trim();
                 if(email.isEmpty()){
-                    edtEmail.setError(getString(R.string.email_warning));
-                    edtEmail.requestFocus();
+                    binding.inputEmail.setError(getString(R.string.email_warning));
+                    binding.inputEmail.requestFocus();
                     return;
                 }
 
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    edtEmail.setError(getString(R.string.valid_email_error));
-                    edtEmail.requestFocus();
+                    binding.inputEmail.setError(getString(R.string.valid_email_error));
+                    binding.inputEmail.requestFocus();
                     return;
                 }
 

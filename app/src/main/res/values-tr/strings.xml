@@ -97,7 +97,7 @@
     <string name="loop_count_warning">Döngü Sayısı gereklidir!</string>
     <string name="scenario_updated">Senaryo başarıyla güncellendi!</string>
     <string name="scenario_deleted">Senaryo silindi!</string>
-    <string name="position_name">Position #%1$s</string>
+    <string name="position_name">Position #%1$d</string>
     <string name="motor_speed">Motor Hızı: %1$s</string>
     <string name="joystick">Joystick</string>
     <string name="slider">Slider</string>
@@ -117,4 +117,8 @@
     <string name="fast">Hızlı</string>
     <string name="home_pos">Başlangıç Pozisyonu</string>
     <string name="try_pos">Pozisyonu Dene</string>
+    <string name="position_deleted">Position has been deleted!</string>
+    <string name="run">Çalıştır</string>
+    <string name="stop">Durdur</string>
+
 </resources>

@@ -62,8 +62,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.PositionActivity"
-            android:exported="false" />
-
+            android:exported="false"/>
         <activity
             android:name=".activities.PositionSettingsActivity"
             android:exported="false" />

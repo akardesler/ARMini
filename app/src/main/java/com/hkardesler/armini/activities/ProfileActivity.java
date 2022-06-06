@@ -11,7 +11,6 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 
@@ -48,19 +47,14 @@ import com.hkardesler.armini.databinding.ActivityProfileBinding;
 import com.hkardesler.armini.helpers.Global;
 import com.hkardesler.armini.adapters.LanguageListViewAdapter;
 import com.hkardesler.armini.helpers.RelativePopupWindow;
-import com.hkardesler.armini.models.User;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.squareup.picasso.Picasso;
 
-import java.util.Objects;
-
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
     private ActivityProfileBinding binding;
-    private User user;
     private RelativePopupWindow relativePopupWindow;
     TypedArray langDrawableIds;
     TypedArray langNames;
-    SharedPreferences prefs;
     int appLanguageId;
     boolean refreshMainActivity = false;
     boolean refreshProfilePhoto = false;
@@ -69,7 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
     private Uri photoUri;
     ActivityResultLauncher<Intent> takePhotoResultLauncher;
     ActivityResultLauncher<String[]> galleryActivityLauncher;
-    StorageReference storageReference;
     boolean userHasImage = false;
 
     @Override
@@ -78,8 +71,6 @@ public class ProfileActivity extends AppCompatActivity {
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        prefs = AppUtils.getPrefs(this);
-        user = AppUtils.getUser(this);
         binding.setUser(user);
         relativePopupWindow = new RelativePopupWindow(this);
         langDrawableIds = getResources().obtainTypedArray(R.array.language_image);
@@ -95,7 +86,8 @@ public class ProfileActivity extends AppCompatActivity {
         setListeners();
     }
 
-    private void setListeners(){
+    @Override
+    protected void setListeners() {
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +155,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+
     private void showLangDropList() {
+
         if (relativePopupWindow.isShowing()) {
             relativePopupWindow.dismiss();
             return;
@@ -351,11 +345,14 @@ public class ProfileActivity extends AppCompatActivity {
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(binding.imgProfilePhoto);
                 userHasImage = true;
+                binding.progressBar.setVisibility(View.GONE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 binding.imgProfilePhoto.setImageDrawable(AppCompatResources.getDrawable(ProfileActivity.this, R.drawable.ic_profile_person));
+                binding.progressBar.setVisibility(View.GONE);
+
             }
         });
     }

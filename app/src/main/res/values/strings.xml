@@ -100,7 +100,7 @@
     <string name="loop_count_warning">Loop Count is required!</string>
     <string name="scenario_updated">Scenario has been updated!</string>
     <string name="scenario_deleted">Scenario has been deleted!</string>
-    <string name="position_name">Position #%1$s</string>
+    <string name="position_name">Position #%1$d</string>
     <string name="motor_speed">Motor Speed: %1$s</string>
     <string name="joystick">Joystick</string>
     <string name="slider">Slider</string>
@@ -118,10 +118,11 @@
     <string name="slow">Slow</string>
     <string name="normal">Normal</string>
     <string name="fast">Fast</string>
-
-    <string name="home_pos">Go to Home</string>
+    <string name="home_pos">Home Position</string>
     <string name="try_pos">Try Position</string>
-
+    <string name="position_deleted">Position has been deleted!</string>
+    <string name="run">Run</string>
+    <string name="stop">Stop</string>
 
 
 </resources>

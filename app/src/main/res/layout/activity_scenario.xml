@@ -63,18 +63,60 @@
             android:paddingBottom="4dp" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_run_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginTop="20dp"
+            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_below="@id/txtTitle"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:gravity="center"
+                android:background="@drawable/side_nav_bar">
+                <ImageView
+                    android:id="@+id/imgPlayStop"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="7dp"
+                    app:srcCompat="@drawable/ic_play"
+                    app:tint="@color/bg_color" />
+
+                <TextView
+                    android:id="@+id/txt_play_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_light"
+                    android:gravity="center"
+                    android:text="@string/run"
+                    android:textColor="@color/bg_color"
+                    android:textSize="18sp"
+                    android:paddingBottom="2dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="3dp"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardview_scenario_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtTitle"
-            app:cardCornerRadius="25dp"
-            android:layout_marginTop="30dp"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="18dp"
             android:layout_marginEnd="18dp"
             app:cardElevation="0dp"
-            android:layout_below="@id/txtTitle">
+            android:layout_below="@id/card_run_stop">
 
             <RelativeLayout
                 android:id="@+id/rlt_scenario_settings"
@@ -177,6 +219,34 @@
             android:visibility="gone"
             android:layout_below="@id/view_line"
             />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_loading"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/bg_color"
+            android:animateLayoutChanges="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/view_line"
+            android:layout_marginTop="40dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

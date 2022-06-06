@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hkardesler.armini.R;
 import com.hkardesler.armini.databinding.ActivityScenarioSettingsBinding;
@@ -35,7 +34,7 @@ import com.hkardesler.armini.models.WorkingMode;
 
 import java.lang.reflect.Type;
 
-public class ScenarioSettingsActivity extends AppCompatActivity {
+public class ScenarioSettingsActivity extends BaseActivity {
     ActivityScenarioSettingsBinding binding;
     WorkingMode workingMode = WorkingMode.INFINITE;
     boolean isLightOn = false;
@@ -49,12 +48,9 @@ public class ScenarioSettingsActivity extends AppCompatActivity {
         binding = ActivityScenarioSettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Gson gson = new Gson();
         String json = getIntent().getExtras().getString(Global.SCENARIO_KEY);
         Type type = new TypeToken<Scenario>() {}.getType();
         scenario = gson.fromJson(json, type);
-
-        User user = AppUtils.getUser(this);
 
         scenarioRef = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_USERS_KEY).child(user.getUserId()).child(Global.FIREBASE_SCENARIOS_KEY).child(scenario.getId());
         if(scenario.getWorkingMode() == WorkingMode.INFINITE){
@@ -75,7 +71,8 @@ public class ScenarioSettingsActivity extends AppCompatActivity {
         setListeners();
     }
 
-    private void setListeners() {
+    @Override
+    protected void setListeners() {
         binding.cardInfinite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,8 +228,6 @@ public class ScenarioSettingsActivity extends AppCompatActivity {
 
     private void finishActivity(){
         Intent resultIntent = new Intent();
-
-        Gson gson = new Gson();
         resultIntent.putExtra(Global.SCENARIO_KEY, gson.toJson(scenario));
         resultIntent.putExtra(Global.SCENARIO_DELETED_KEY, scenarioDeleted);
         setResult(Activity.RESULT_OK, resultIntent);

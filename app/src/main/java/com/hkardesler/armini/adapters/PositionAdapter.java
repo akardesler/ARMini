@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -62,19 +63,27 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtPositionName, txtMotorSpeed;
         CardView cardView;
+        ImageView imgArrow;
 
         ViewHolder(View itemView) {
             super(itemView);
             txtPositionName = itemView.findViewById(R.id.txtPositionName);
             txtMotorSpeed = itemView.findViewById(R.id.txtMotorSpeed);
             cardView = itemView.findViewById(R.id.cardview);
+            imgArrow = itemView.findViewById(R.id.img_arrow);
         }
 
         public void setData(int position){
             Position scenarioPosition = positions.get(position);
 
-            txtPositionName.setText(context.getString(R.string.position_name, scenarioPosition.getKey()));
+            txtPositionName.setText(context.getString(R.string.position_name, scenarioPosition.getKey()+1));
             txtMotorSpeed.setText(context.getString(R.string.motor_speed, scenarioPosition.getMotorSpeed().getStringValue()));
+
+            if(positions.size() == position+1){
+                imgArrow.setVisibility(View.GONE);
+            }else{
+                imgArrow.setVisibility(View.VISIBLE);
+            }
 
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

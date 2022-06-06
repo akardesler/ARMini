@@ -1,19 +1,20 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 2.06.2022 20:29
+ *  * Created by Haydar Kardesler on 5.06.2022 22:41
  *  * Copyright (c) 2022 . All rights reserved.
  *
  */
 
 package com.hkardesler.armini.models;
 
-public enum WorkingMode {
-    INFINITE("Infinite", 0),
-    LOOP("Loop", 1);
+public enum ControllerMode {
+    JOYSTICK("Joystick", 0),
+    SLIDER("Slider", 1);
+
     private final String stringValue;
     private final int intValue;
 
-    WorkingMode(String toString, int value) {
+    ControllerMode(String toString, int value) {
         stringValue = toString;
         intValue = value;
     }

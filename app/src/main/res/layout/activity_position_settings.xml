@@ -90,7 +90,7 @@
                         android:background="@drawable/outline_rounded_border">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/card_infinite"
+                            android:id="@+id/card_joystick"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="9dp"
@@ -98,7 +98,7 @@
                             android:layout_weight="1"
                             android:foreground="?android:attr/selectableItemBackground">
                             <LinearLayout
-                                android:id="@+id/ln_infinite"
+                                android:id="@+id/ln_joystick"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -106,14 +106,14 @@
                                 android:background="@color/dark_gray_2"
                                 android:padding="10dp" >
                                 <ImageView
-                                    android:id="@+id/imgInfinite"
+                                    android:id="@+id/img_joystick"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     app:srcCompat="@drawable/ic_joystick_2"
                                     app:tint="@color/white"
                                     android:layout_marginEnd="7dp"/>
                                 <TextView
-                                    android:id="@+id/txt_infinite"
+                                    android:id="@+id/txt_joystick"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/montserrat_light"
@@ -138,7 +138,7 @@
                             android:layout_marginBottom="5dp"/>
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/card_loop"
+                            android:id="@+id/card_slider"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="10dp"
@@ -147,7 +147,7 @@
                             android:foreground="?android:attr/selectableItemBackground">
 
                             <LinearLayout
-                                android:id="@+id/ln_loop"
+                                android:id="@+id/ln_slider"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -155,7 +155,7 @@
                                 android:padding="10dp">
 
                                 <ImageView
-                                    android:id="@+id/imgLoop"
+                                    android:id="@+id/img_slider"
                                     android:layout_width="19dp"
                                     android:layout_height="19dp"
                                     app:srcCompat="@drawable/ic_slider"
@@ -163,7 +163,7 @@
                                     android:layout_marginEnd="7dp"/>
 
                                 <TextView
-                                    android:id="@+id/txt_loop"
+                                    android:id="@+id/txt_slider"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/montserrat_light"
@@ -199,7 +199,7 @@
                         android:background="@drawable/outline_rounded_border">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/card_on"
+                            android:id="@+id/card_slow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="9dp"
@@ -207,14 +207,14 @@
                             android:layout_weight="1"
                             android:foreground="?android:attr/selectableItemBackground">
                             <LinearLayout
-                                android:id="@+id/ln_light_on"
+                                android:id="@+id/ln_slow"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:orientation="horizontal"
                                 android:padding="10dp" >
                                 <TextView
-                                    android:id="@+id/txt_on"
+                                    android:id="@+id/txt_slow"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/montserrat_light"
@@ -312,7 +312,7 @@
 
 
             <LinearLayout
-                android:id="@+id/btnDeleteScenario"
+                android:id="@+id/btnDeletePosition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardview"
@@ -330,7 +330,7 @@
                     app:tint="@color/red" />
 
                 <TextView
-                    android:id="@+id/txtDeleteScenario"
+                    android:id="@+id/txtDeletePosition"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:text="@string/delete_position"

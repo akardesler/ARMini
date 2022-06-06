@@ -38,17 +38,9 @@ import com.hkardesler.armini.helpers.Global;
 
 import java.util.Objects;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends BaseActivity {
 
-    RelativeLayout layout_main;
-    TextView btnSignUp, btnForgotPassword;
-    EditText edtEmail, edtPassword;
-    CheckBox chkRememberMe;
-    Button btnContinue;
-    SharedPreferences prefs;
-    User user;
     boolean isRemember;
-    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private ActivitySignInBinding binding;
 
@@ -58,20 +50,9 @@ public class SignInActivity extends AppCompatActivity {
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        layout_main = binding.layoutMain;
-        btnContinue = binding.btnContinue;
-        btnForgotPassword = binding.btnForgotPass;
-        edtEmail = binding.inputEmail;
-        edtPassword = binding.inputPassword;
-        btnSignUp = binding.btnSignUp;
-        chkRememberMe = binding.chkRemember;
-
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        prefs = AppUtils.getPrefs(SignInActivity.this);
-        user = AppUtils.getUser(SignInActivity.this);
+        mDatabase = firebaseDatabase.getReference();
         isRemember = prefs.getBoolean(Global.REMEMBER_ME_KEY, false);
-        chkRememberMe.setChecked(isRemember);
+        binding.chkRemember.setChecked(isRemember);
 
         int appLanguageId = prefs.getInt(Global.APP_LANGUAGE_ID_KEY, 0);
         if(appLanguageId != 0){
@@ -79,7 +60,18 @@ public class SignInActivity extends AppCompatActivity {
         }else{
             binding.txtLoginAppName.setVisibility(View.VISIBLE);
         }
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+
+        if(isRemember){
+            if(user != null){
+                binding.inputEmail.setText(user.getEmail());
+                binding.inputPassword.setText(user.getPassword());
+            }
+        }
+    }
+
+    @Override
+    protected void setListeners() {
+        binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(SignInActivity.this, SignUpActivity.class);
@@ -87,7 +79,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
+        binding.btnForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(SignInActivity.this, ResetPasswordActivity.class);
@@ -95,41 +87,34 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        btnContinue.setOnClickListener(new View.OnClickListener() {
+        binding.btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signIn();
             }
         });
-
-        if(isRemember){
-            if(user != null){
-                edtEmail.setText(user.getEmail());
-                edtPassword.setText(user.getPassword());
-            }
-        }
     }
 
     private void signIn(){
-        AppUtils.showLoading(SignInActivity.this, layout_main);
-        String email = edtEmail.getText().toString().trim();
-        String password = edtPassword.getText().toString().trim();
+        AppUtils.showLoading(SignInActivity.this, binding.layoutMain);
+        String email = binding.inputEmail.getText().toString().trim();
+        String password = binding.inputPassword.getText().toString().trim();
 
         if(email.isEmpty()){
-            edtEmail.setError(getString(R.string.email_warning));
-            edtEmail.requestFocus();
+            binding.inputEmail.setError(getString(R.string.email_warning));
+            binding.inputEmail.requestFocus();
             return;
         }
 
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            edtEmail.setError(getString(R.string.valid_email_error));
-            edtEmail.requestFocus();
+            binding.inputEmail.setError(getString(R.string.valid_email_error));
+            binding.inputEmail.requestFocus();
             return;
         }
 
         if(password.isEmpty()){
-            edtPassword.setError(getString(R.string.pass_warning));
-            edtPassword.requestFocus();
+            binding.inputPassword.setError(getString(R.string.pass_warning));
+            binding.inputPassword.requestFocus();
             return;
         }
 
@@ -145,28 +130,28 @@ public class SignInActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 DataSnapshot data = task.getResult();
                                 SharedPreferences.Editor editor = prefs.edit();
-                                editor.putBoolean(Global.REMEMBER_ME_KEY, chkRememberMe.isChecked());
+                                editor.putBoolean(Global.REMEMBER_ME_KEY, binding.chkRemember.isChecked());
                                 editor.putBoolean(Global.SIGNED_IN_KEY, true);
                                 editor.apply();
-                                User user_login = new User(userId, data.child(Global.FIREBASE_FULL_NAME_KEY).getValue(String.class), data.child(Global.FIREBASE_EMAIL_KEY).getValue(String.class), edtPassword.getText().toString());
+                                User user_login = new User(userId, data.child(Global.FIREBASE_FULL_NAME_KEY).getValue(String.class), data.child(Global.FIREBASE_EMAIL_KEY).getValue(String.class), binding.inputPassword.getText().toString());
                                 AppUtils.setUser(SignInActivity.this, user_login);
 
                                 Intent i = new Intent(SignInActivity.this, MainActivity.class);
 
                                 startActivity(i);
                                 finish();
-                                AppUtils.hideLoading(SignInActivity.this, layout_main);
+                                AppUtils.hideLoading(SignInActivity.this, binding.layoutMain);
 
                             }
                             else {
-                                AppUtils.hideLoading(SignInActivity.this, layout_main);
+                                AppUtils.hideLoading(SignInActivity.this, binding.layoutMain);
 
                                 AppUtils.showToastMessage(SignInActivity.this, getString(R.string.sign_in_error), R.drawable.ic_close, R.color.red);
                             }
                         }
                     });
                 }else {
-                    AppUtils.hideLoading(SignInActivity.this, layout_main);
+                    AppUtils.hideLoading(SignInActivity.this, binding.layoutMain);
                     AppUtils.showToastMessage(SignInActivity.this, getString(R.string.sign_in_error), R.drawable.ic_close, R.color.red);
                 }
             }

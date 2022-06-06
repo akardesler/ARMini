@@ -31,8 +31,6 @@ import com.hkardesler.armini.helpers.Global;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    Button btnGetStarted;
-    TextView txtTitle, txtDesc;
     ActivityWelcomeBinding binding;
 
     @Override
@@ -51,11 +49,8 @@ public class WelcomeActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(uiOptions);
         }
 
-        btnGetStarted = binding.btnGetStarted;
-        txtTitle = binding.txtTitle;
-        txtDesc = binding.txtDesc;
 
-        btnGetStarted.setOnClickListener(new View.OnClickListener() {
+        binding.btnGetStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedPreferences prefs = AppUtils.getPrefs(WelcomeActivity.this);
@@ -69,13 +64,13 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        AppUtils.addTextGradient(txtTitle, getString(R.string.welcome));
+        AppUtils.addTextGradient(binding.txtTitle, getString(R.string.welcome));
 
         String descText = getString(R.string.welcome_desc);
         SpannableStringBuilder str = new SpannableStringBuilder(descText);
         String appName = getString(R.string.app_name);
         str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), descText.indexOf(appName), descText.indexOf(appName)+6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        txtDesc.setText(str);
+        binding.txtDesc.setText(str);
     }
 
 }

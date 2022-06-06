@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /**
+  ~  * Created by Haydar Kardesler on 6.06.2022 10:43
+  ~  * Copyright (c) 2022 . All rights reserved.
+  ~  */
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <size android:height="30dp" android:width="30dp"/>
+    <stroke android:width="16dp" android:color="#882EA5DE"/>
+    <solid android:color="#2EA5DE" />
+    <corners android:radius="1dp" />
+
+</shape>

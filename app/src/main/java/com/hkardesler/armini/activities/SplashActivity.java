@@ -30,8 +30,7 @@ import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
 
 @SuppressLint("CustomSplashScreen")
-public class SplashActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
             int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
             decorView.setSystemUiVisibility(uiOptions);
         }
-        SharedPreferences prefs = AppUtils.getPrefs(this);
+
         int appLanguageId = prefs.getInt(Global.APP_LANGUAGE_ID_KEY, 0);
         String langCode = getResources().obtainTypedArray(R.array.language_code).getText(appLanguageId).toString();
         AppUtils.setLocale(this, langCode);
@@ -62,8 +61,6 @@ public class SplashActivity extends AppCompatActivity {
             boolean signedIn = prefs.getBoolean(Global.SIGNED_IN_KEY, false);
             if(signedIn){
 
-                User user = AppUtils.getUser(SplashActivity.this);
-                mAuth = FirebaseAuth.getInstance();
                 mAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -86,5 +83,10 @@ public class SplashActivity extends AppCompatActivity {
                 }, 1000);
             }
         }
+    }
+
+    @Override
+    protected void setListeners() {
+
     }
 }

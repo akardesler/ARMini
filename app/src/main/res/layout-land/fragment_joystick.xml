@@ -45,8 +45,12 @@
         <com.hkardesler.armini.helpers.VerticalSeekBar
             android:id="@+id/seekBar1"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:thumbTint="@color/dark_gray_2"
+            android:thumb="@drawable/seekbar_thumb"
             />
+
     </RelativeLayout>
 
 </FrameLayout>

@@ -106,57 +106,117 @@
                             app:srcCompat="@drawable/ic_logo" />
 
                     </LinearLayout>
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_status"
+
+                    <LinearLayout
+                        android:id="@+id/ln_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
                         android:layout_below="@id/ln_animations"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
-                        app:cardElevation="0dp">
+                        android:layout_marginTop="25dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginBottom="8dp">
 
-                        <LinearLayout
-                            android:id="@+id/ln_status"
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:background="#F1F1F1"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            app:cardCornerRadius="25dp"
+                            app:cardElevation="0dp">
 
-                            <com.airbnb.lottie.LottieAnimationView
-                                android:id="@+id/statusAnimation"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                app:lottie_autoPlay="true"
-                                app:lottie_fileName="robot_offline.json"
-                                app:lottie_loop="true" />
-
-                            <TextView
-                                android:id="@+id/txtStatus"
+                            <LinearLayout
+                                android:id="@+id/ln_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="2dp"
-                                android:fontFamily="@font/montserrat_light"
-                                android:text="@string/offline"
-                                android:textColor="@color/dark_gray"
-                                android:textSize="16sp"
-                                android:layout_marginEnd="10dp"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                                android:layout_centerHorizontal="true"
+                                android:background="#F1F1F1"
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
+                                <com.airbnb.lottie.LottieAnimationView
+                                    android:id="@+id/statusAnimation"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    app:lottie_autoPlay="true"
+                                    app:lottie_fileName="robot_offline.json"
+                                    app:lottie_loop="true" />
+
+                                <TextView
+                                    android:id="@+id/txtStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="2dp"
+                                    android:fontFamily="@font/montserrat_light"
+                                    android:text="@string/offline"
+                                    android:textColor="@color/dark_gray"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_stop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            android:visibility="gone"
+                            app:cardCornerRadius="25dp"
+                            app:cardElevation="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/side_nav_bar"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="5dp"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp">
+
+                                <ImageView
+                                    android:id="@+id/imgStop"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:padding="6dp"
+                                    app:srcCompat="@drawable/ic_stop"
+                                    app:tint="@color/bg_color" />
+
+                                <TextView
+                                    android:id="@+id/txt_stop"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="3dp"
+                                    android:fontFamily="@font/montserrat_light"
+                                    android:gravity="center"
+                                    android:paddingEnd="5dp"
+                                    android:paddingBottom="2dp"
+                                    android:text="@string/stop"
+                                    android:textColor="@color/bg_color"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_operator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         app:cardCornerRadius="13dp"
-                        android:layout_below="@id/card_status"
+                        android:layout_below="@id/ln_top"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
                         app:cardElevation="0dp"
+                        android:visibility="gone"
                         android:layout_marginBottom="10dp">
 
                         <LinearLayout
@@ -170,8 +230,7 @@
                             android:paddingStart="15dp"
                             android:paddingTop="5dp"
                             android:paddingEnd="15dp"
-                            android:paddingBottom="5dp"
-                            android:visibility="gone">
+                            android:paddingBottom="5dp">
 
                             <TextView
                                 android:id="@+id/txtOperator"
@@ -197,6 +256,7 @@
                                 />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
                 </RelativeLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -218,14 +278,15 @@
             android:id="@+id/txtTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/scenarios"
-            android:fontFamily="@font/montserrat_extra_light"
-            android:textSize="25sp"
-            android:layout_margin="10dp"
-            android:textColor="@color/black"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/montserrat_extra_light"
+            android:text="@string/scenarios"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
         <View
             android:id="@+id/view_line"
