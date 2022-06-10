@@ -203,7 +203,7 @@ public class ScenarioSettingsActivity extends BaseActivity {
         scenario.setLoopCount(Integer.parseInt(loopCount));
         scenario.setLightOpen(isLightOn);
         scenarioRef.child(Global.FIREBASE_SCENARIO_NAME_KEY).setValue(scenario.getName());
-        scenarioRef.child(Global.FIREBASE_WORKING_MODE_KEY).setValue(scenario.getWorkingMode());
+        scenarioRef.child(Global.FIREBASE_WORKING_MODE_KEY).setValue(scenario.getWorkingMode().getIntValue());
         scenarioRef.child(Global.FIREBASE_LOOP_COUNT_KEY).setValue(scenario.getLoopCount());
         scenarioRef.child(Global.FIREBASE_LIGHT_OPEN_KEY).setValue(scenario.isLightOpen()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

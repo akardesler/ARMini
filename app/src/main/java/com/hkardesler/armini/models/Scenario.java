@@ -12,23 +12,21 @@ import java.util.ArrayList;
 public class Scenario {
 
    private String id, name;
-   private ArrayList<Position> positions;
+   private int positionCount;
    private WorkingMode workingMode;
-    private long loopCount;
+    private int loopCount;
     private boolean isLightOpen;
 
-    public Scenario(String id, String name, ArrayList<Position> positions, WorkingMode workingMode, long loopCount, boolean isLightOpen) {
+    public Scenario(String id, String name, int positionCount, WorkingMode workingMode, int loopCount, boolean isLightOpen) {
         this.id = id;
         this.name = name;
-        this.positions = positions;
+        this.positionCount = positionCount;
         this.workingMode = workingMode;
         this.isLightOpen = isLightOpen;
         this.loopCount = loopCount;
     }
 
-    public Scenario() {
-        this.positions = new ArrayList<>();
-    }
+    public Scenario() {}
 
     public String getId() {
         return id;
@@ -46,14 +44,6 @@ public class Scenario {
         this.name = name;
     }
 
-    public ArrayList<Position> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(ArrayList<Position> positions) {
-        this.positions = positions;
-    }
-
     public WorkingMode getWorkingMode() {
         return workingMode;
     }
@@ -62,7 +52,7 @@ public class Scenario {
         this.workingMode = workingMode;
     }
 
-    public long getLoopCount() {
+    public int getLoopCount() {
         return loopCount;
     }
 
@@ -78,5 +68,11 @@ public class Scenario {
         isLightOpen = lightOpen;
     }
 
+    public int getPositionCount() {
+        return positionCount;
+    }
 
+    public void setPositionCount(int positionCount) {
+        this.positionCount = positionCount;
+    }
 }

@@ -175,11 +175,8 @@ public class ProfileActivity extends BaseActivity {
         lv.setOnItemClickListener((adapterView, view, pos, l) -> {
             binding.txtLang.setText(langNames.getText(pos));
             binding.imgFlag.setImageDrawable(langDrawableIds.getDrawable(pos));
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(Global.APP_LANGUAGE_ID_KEY, pos);
-            editor.apply();
+            AppUtils.putInt(ProfileActivity.this, Global.APP_LANGUAGE_ID_KEY, pos);
             appLanguageId = pos;
-
             String langCode = getResources().obtainTypedArray(R.array.language_code).getText(appLanguageId).toString();
             AppUtils.setLocale(this, langCode);
             refreshMainActivity = true;

@@ -8,12 +8,15 @@
 package com.hkardesler.armini.fragments;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -32,6 +35,7 @@ import com.hkardesler.armini.activities.PositionSettingsActivity;
 import com.hkardesler.armini.databinding.FragmentSliderBinding;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
+import com.hkardesler.armini.impls.ControllerModeChangeListener;
 import com.hkardesler.armini.models.Position;
 import com.hkardesler.armini.models.Scenario;
 import com.hkardesler.armini.models.User;
@@ -49,13 +53,15 @@ public class SliderFragment extends Fragment {
     DatabaseReference positionRef;
     String scenarioId;
     boolean isNewPosition = true;
-
-    public SliderFragment() {
-        // Required empty public constructor
+    ControllerModeChangeListener mControllerModeChangeListener;
+    int deletePositionId = -1;
+    public SliderFragment() {}
+    public SliderFragment(ControllerModeChangeListener controllerModeChangeListener) {
+        mControllerModeChangeListener = controllerModeChangeListener;
     }
 
-    public static SliderFragment newInstance(String positionJson, boolean newPosition, String scenarioId) {
-        SliderFragment fragment = new SliderFragment();
+    public static SliderFragment newInstance(String positionJson, boolean newPosition, String scenarioId, ControllerModeChangeListener controllerModeChangeListener) {
+        SliderFragment fragment = new SliderFragment(controllerModeChangeListener);
         Bundle args = new Bundle();
         args.putString(ARG_POSITION, positionJson);
         args.putBoolean(ARG_NEW_POSITION, newPosition);
@@ -64,8 +70,8 @@ public class SliderFragment extends Fragment {
         return fragment;
     }
 
-    public static SliderFragment newInstance() {
-        return new SliderFragment();
+    public static SliderFragment newInstance(ControllerModeChangeListener controllerModeChangeListener) {
+        return new SliderFragment(controllerModeChangeListener);
     }
 
     @Override
@@ -83,11 +89,21 @@ public class SliderFragment extends Fragment {
         }
 
         User user = AppUtils.getUser(getContext());
+
         positionRef = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_USERS_KEY)
                 .child(user.getUserId()).child(Global.FIREBASE_SCENARIOS_KEY).child(scenarioId).child(Global.FIREBASE_POSITIONS_KEY)
                 .child(String.valueOf(mPosition.getKey()));
 
         initActivityResultLauncher();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button even
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
 
     }
 
@@ -124,7 +140,6 @@ public class SliderFragment extends Fragment {
                 String positionJson = gson.toJson(mPosition);
                 i.putExtra(Global.POSITION_KEY, positionJson);
                 i.putExtra(Global.NEW_POSITION_KEY, isNewPosition);
-                i.putExtra(Global.SCENARIO_ID_KEY, scenarioId);
                 activityResultLauncher.launch(i);
             }
         });
@@ -132,7 +147,7 @@ public class SliderFragment extends Fragment {
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                positionRef.child(Global.FIREBASE_MOTOR_SPEED_KEY).setValue(Global.MOTOR_SPEED_POSITION_VALUE);
+                positionRef.child(Global.FIREBASE_MOTOR_SPEED_KEY).setValue(Global.MOTOR_SPEED_POSITION_VALUE.getIntValue());
                 positionRef.child(Global.FIREBASE_BASE_KEY).setValue(mPosition.getBase());
                 positionRef.child(Global.FIREBASE_SHOULDER_KEY).setValue(mPosition.getShoulder());
                 positionRef.child(Global.FIREBASE_ELBOW_VER_KEY).setValue(mPosition.getElbowVertical());
@@ -142,8 +157,7 @@ public class SliderFragment extends Fragment {
                 positionRef.child(Global.FIREBASE_GRIPPER_KEY).setValue(mPosition.getGripper()).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        getActivity().finish();
-
+                        finishActivity();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -229,17 +243,29 @@ public class SliderFragment extends Fragment {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         if (data != null) {
-                            boolean deletePosition = data.getBooleanExtra(Global.POSITION_DELETED_KEY, false);
-                            if(deletePosition){
-                                getActivity().finish();
+                             deletePositionId = data.getIntExtra(Global.DELETE_POSITION_ID, -1);
+                            if(deletePositionId != -1){
+                                finishActivity();
                             }else{
                                 Gson gson = new Gson();
                                 String json = data.getStringExtra(Global.POSITION_KEY);
                                 Type type = new TypeToken<Position>() {}.getType();
                                 mPosition = gson.fromJson(json, type);
+                                boolean controllerModeChanged = data.getBooleanExtra(Global.CONTROLLER_MODE_CHANGED, false);
+                                if(controllerModeChanged)
+                                    mControllerModeChangeListener.onControllerModeChanged();
                             }
                         }
                     }
                 });
     }
+
+    private void finishActivity(){
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(Global.DELETE_POSITION_ID, deletePositionId);
+        requireActivity().setResult(Activity.RESULT_OK, resultIntent);
+        requireActivity().finish();
+    }
+
+
 }

@@ -8,14 +8,14 @@
 package com.hkardesler.armini.models;
 
 public class Position {
-    private long key;
+    private int key;
     private MotorSpeed motorSpeed;
-    private long base, shoulder, elbowVertical, elbowHorizontal, wristVertical, wristHorizontal, gripper;
+    private int base, shoulder, elbowVertical, elbowHorizontal, wristVertical, wristHorizontal, gripper;
 
     public Position() {
     }
 
-    public Position(long key, MotorSpeed motorSpeed, long baseValue, long shoulderValue, long elbowVerticalValue, long elbowHorizontalValue, long wristVerticalValue, long wristHorizontalValue, long gripperValue) {
+    public Position(int key, MotorSpeed motorSpeed, int baseValue, int shoulderValue, int elbowVerticalValue, int elbowHorizontalValue, int wristVerticalValue, int wristHorizontalValue, int gripperValue) {
         this.key = key;
         this.motorSpeed = motorSpeed;
         this.base = baseValue;
@@ -27,11 +27,11 @@ public class Position {
         gripper = gripperValue;
     }
 
-    public long getKey() {
+    public int getKey() {
         return key;
     }
 
-    public void setKey(long key) {
+    public void setKey(int key) {
         this.key = key;
     }
 
@@ -43,59 +43,59 @@ public class Position {
         this.motorSpeed = motorSpeed;
     }
 
-    public long getBase() {
+    public int getBase() {
         return base;
     }
 
-    public void setBase(long base) {
+    public void setBase(int base) {
         this.base = base;
     }
 
-    public long getShoulder() {
+    public int getShoulder() {
         return shoulder;
     }
 
-    public void setShoulder(long shoulder) {
+    public void setShoulder(int shoulder) {
         this.shoulder = shoulder;
     }
 
-    public long getElbowVertical() {
+    public int getElbowVertical() {
         return elbowVertical;
     }
 
-    public void setElbowVertical(long elbowVertical) {
+    public void setElbowVertical(int elbowVertical) {
         this.elbowVertical = elbowVertical;
     }
 
-    public long getElbowHorizontal() {
+    public int getElbowHorizontal() {
         return elbowHorizontal;
     }
 
-    public void setElbowHorizontal(long elbowHorizontal) {
+    public void setElbowHorizontal(int elbowHorizontal) {
         this.elbowHorizontal = elbowHorizontal;
     }
 
-    public long getWristVertical() {
+    public int getWristVertical() {
         return wristVertical;
     }
 
-    public void setWristVertical(long wristVertical) {
+    public void setWristVertical(int wristVertical) {
         this.wristVertical = wristVertical;
     }
 
-    public long getWristHorizontal() {
+    public int getWristHorizontal() {
         return wristHorizontal;
     }
 
-    public void setWristHorizontal(long wristHorizontal) {
+    public void setWristHorizontal(int wristHorizontal) {
         this.wristHorizontal = wristHorizontal;
     }
 
-    public long getGripper() {
+    public int getGripper() {
         return gripper;
     }
 
-    public void setGripper(long gripper) {
+    public void setGripper(int gripper) {
         this.gripper = gripper;
     }
 }

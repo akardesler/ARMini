@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
@@ -19,6 +21,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.Button;
@@ -29,6 +32,8 @@ import com.hkardesler.armini.databinding.ActivityWelcomeBinding;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
 
+import java.util.Locale;
+
 public class WelcomeActivity extends AppCompatActivity {
 
     ActivityWelcomeBinding binding;
@@ -36,6 +41,26 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Locale locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = Resources.getSystem().getConfiguration().getLocales().get(0);
+        } else {
+            locale = Resources.getSystem().getConfiguration().locale;
+        }
+
+        TypedArray languages = getResources().obtainTypedArray(R.array.language_code);
+        int languageIndex = 0;
+
+        for(int i = 0; i < languages.length(); i++ ){
+            if(locale.getLanguage().contentEquals(languages.getText(i).toString())){
+                languageIndex = i;
+                break;
+            }
+        }
+        AppUtils.putInt(this, Global.APP_LANGUAGE_ID_KEY, languageIndex);
+        AppUtils.setLocale(this, languages.getText(languageIndex).toString());
+
         binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

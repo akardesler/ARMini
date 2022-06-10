@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.hkardesler.armini"
-        minSdk 21
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -17,7 +17,9 @@ android {
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -54,6 +56,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
     implementation 'com.squareup.picasso:picasso:2.8'
+    implementation 'com.hivemq:hivemq-mqtt-client:1.2.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

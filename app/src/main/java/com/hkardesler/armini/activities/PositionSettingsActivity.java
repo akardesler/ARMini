@@ -9,11 +9,13 @@ package com.hkardesler.armini.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -45,10 +47,11 @@ import java.lang.reflect.Type;
 public class PositionSettingsActivity extends BaseActivity {
     ActivityPositionSettingsBinding binding;
     Position position;
-    boolean positionDeleted = false;
-    DatabaseReference positionRef;
+    int deletePositionId = -1;
     boolean isNewPosition = true;
+    boolean controllerModeChanged = false;
     String scenarioId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,9 +63,7 @@ public class PositionSettingsActivity extends BaseActivity {
         Type type = new TypeToken<Position>() {}.getType();
         position = gson.fromJson(json, type);
         isNewPosition = getIntent().getExtras().getBoolean(Global.NEW_POSITION_KEY);
-        scenarioId = getIntent().getExtras().getString(Global.SCENARIO_ID_KEY);
 
-        positionRef = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_USERS_KEY).child(user.getUserId()).child(Global.FIREBASE_SCENARIOS_KEY).child(scenarioId).child(Global.FIREBASE_POSITIONS_KEY).child(String.valueOf(position.getKey()));
         setMotorSpeed(position.getMotorSpeed());
         setControllerMode(Global.CONTROLLER_MODE_POSITION_VALUE);
         setListeners();
@@ -84,21 +85,7 @@ public class PositionSettingsActivity extends BaseActivity {
         binding.btnDeletePosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                positionDeleted = true;
-                positionRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        AppUtils.showToastMessage(PositionSettingsActivity.this,getString(R.string.position_deleted), R.drawable.ic_done, R.color.green_500);
-                        finishActivity();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        AppUtils.showToastMessage(PositionSettingsActivity.this, getString(R.string.sth_wrong), R.drawable.ic_close, R.color.red);
-
-                    }
-
-                });
+               showDeleteDialog();
             }
         });
 
@@ -106,9 +93,6 @@ public class PositionSettingsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 setMotorSpeed(MotorSpeed.SLOW);
-                Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.SLOW;
-                AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.SLOW.getIntValue());
-                position.setMotorSpeed(MotorSpeed.SLOW);
             }
         });
 
@@ -116,10 +100,6 @@ public class PositionSettingsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 setMotorSpeed(MotorSpeed.NORMAL);
-                Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.NORMAL;
-                AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.NORMAL.getIntValue());
-                position.setMotorSpeed(MotorSpeed.NORMAL);
-
             }
         });
 
@@ -127,9 +107,6 @@ public class PositionSettingsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 setMotorSpeed(MotorSpeed.FAST);
-                Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.FAST;
-                AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.FAST.getIntValue());
-                position.setMotorSpeed(MotorSpeed.FAST);
             }
         });
 
@@ -139,6 +116,7 @@ public class PositionSettingsActivity extends BaseActivity {
                 setControllerMode(ControllerMode.JOYSTICK);
                 Global.CONTROLLER_MODE_POSITION_VALUE = ControllerMode.JOYSTICK;
                 AppUtils.putInt(PositionSettingsActivity.this, Global.CONTROLLER_MODE_POSITION_KEY, ControllerMode.JOYSTICK.getIntValue());
+                controllerModeChanged = true;
 
             }
         });
@@ -149,6 +127,7 @@ public class PositionSettingsActivity extends BaseActivity {
                 setControllerMode(ControllerMode.SLIDER);
                 Global.CONTROLLER_MODE_POSITION_VALUE = ControllerMode.SLIDER;
                 AppUtils.putInt(PositionSettingsActivity.this, Global.CONTROLLER_MODE_POSITION_KEY, ControllerMode.SLIDER.getIntValue());
+                controllerModeChanged = true;
             }
         });
 
@@ -192,7 +171,8 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.txtFast.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
             Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.SLOW;
-
+            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.SLOW.getIntValue());
+            position.setMotorSpeed(MotorSpeed.SLOW);
         }else if(speed == MotorSpeed.NORMAL){
             binding.lnSlow.setBackground(ContextCompat.getDrawable(this, R.color.white));
             binding.txtSlow.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
@@ -204,6 +184,8 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.txtFast.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
             Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.NORMAL;
+            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.NORMAL.getIntValue());
+            position.setMotorSpeed(MotorSpeed.NORMAL);
         }else{
             binding.lnSlow.setBackground(ContextCompat.getDrawable(this, R.color.white));
             binding.txtSlow.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
@@ -215,13 +197,16 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.txtFast.setTextColor(ContextCompat.getColor(this, R.color.white));
 
             Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.FAST;
+            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.FAST.getIntValue());
+            position.setMotorSpeed(MotorSpeed.FAST);
         }
     }
 
     private void finishActivity(){
         Intent resultIntent = new Intent();
         resultIntent.putExtra(Global.POSITION_KEY, gson.toJson(position));
-        resultIntent.putExtra(Global.POSITION_DELETED_KEY, positionDeleted);
+        resultIntent.putExtra(Global.DELETE_POSITION_ID, deletePositionId);
+        resultIntent.putExtra(Global.CONTROLLER_MODE_CHANGED, controllerModeChanged);
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
@@ -231,4 +216,21 @@ public class PositionSettingsActivity extends BaseActivity {
         finishActivity();
         super.onBackPressed();
     }
+
+    private void showDeleteDialog(){
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.delete_position_title))
+                .setMessage(getString(R.string.delete_position_desc))
+
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        deletePositionId = position.getKey();
+                        finishActivity();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+
 }

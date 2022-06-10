@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,7 @@ import com.hkardesler.armini.adapters.ScenarioAdapter;
 import com.hkardesler.armini.databinding.ActivityMainBinding;
 import com.hkardesler.armini.databinding.LayoutContentMainBinding;
 import com.hkardesler.armini.impls.ScenarioItemClickListener;
+import com.hkardesler.armini.models.ArmStatus;
 import com.hkardesler.armini.models.Scenario;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
@@ -64,6 +66,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 public class MainActivity extends BaseActivity implements ScenarioItemClickListener {
 
@@ -76,6 +79,7 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
     private ScenarioAdapter scenarioAdapter;
     private ArrayList<Scenario> scenarios;
     private DatabaseReference scenarioRef;
+    ValueEventListener scenarioValueListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +99,7 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         actionBarDrawerToggle.syncState();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        getScenariosFromFirebase();
+        addScenarioValueEventListenerFirebase();
         getUserImageFromFirebase();
         initActivityResultLauncher();
 
@@ -113,6 +117,31 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
 
         AppUtils.addTextGradient(mainContent.txtTitle, getString(R.string.scenarios));
 
+        Global.ARMINI_STATUS = ArmStatus.AVAILABLE;
+        if(Global.ARMINI_STATUS == ArmStatus.OFFLINE){
+            mainContent.statusAnimation.setAnimation("robot_offline.json");
+            mainContent.animationView.setAnimation("offline.json");
+            mainContent.animationView.cancelAnimation();
+            mainContent.txtStatus.setText(getString(R.string.offline));
+        }else if(Global.ARMINI_STATUS == ArmStatus.AVAILABLE){
+            mainContent.statusAnimation.setAnimation("robot_available.json");
+            mainContent.animationView.setAnimation("connection.json");
+            mainContent.animationView.setProgress(0f);
+            mainContent.animationView.pauseAnimation();
+            mainContent.txtStatus.setText(getString(R.string.available));
+
+        }else if(Global.ARMINI_STATUS == ArmStatus.WORKING){
+            mainContent.statusAnimation.setAnimation("robot_working.json");
+            mainContent.animationView.setAnimation("connection.json");
+            mainContent.animationView.playAnimation();
+            mainContent.txtStatus.setText(getString(R.string.working));
+            mainContent.cardOperator.setVisibility(View.VISIBLE);
+            mainContent.txtOperatorName.setText("Haydar Kardesler");
+
+            mainContent.cardStop.setVisibility(View.VISIBLE);
+
+        }
+
 
     }
 
@@ -123,34 +152,34 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 int id=menuItem.getItemId();
                 if (id == R.id.nav_signout){
-                    mAuth.signOut();
-                    editor.putBoolean(Global.SIGNED_IN_KEY, false);
-                    editor.apply();
-                    Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-                    startActivity(intent);
-                    finish();
+                   signOut();
                 } else if (id == R.id.nav_profile){
                     Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                     activityResultLauncher.launch(intent);
                 }else if(id == R.id.nav_report_bug){
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("message/rfc822");
-                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"hkardesler1@gmail.com"});
-                    i.putExtra(Intent.EXTRA_SUBJECT, "ARMini - Report Bug");
-                    try {
-                        startActivity(Intent.createChooser(i, "Send mail..."));
-                    } catch (android.content.ActivityNotFoundException ex) {
-                        Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-                    }
+                    reportBugViaEmail();
                 }else if(id == R.id.nav_about){
                     showAboutPopup();
                     drawerLayout.closeDrawers();
+                }else if(id == R.id.nav_manual_control){
+                    if(Global.ARMINI_STATUS == ArmStatus.AVAILABLE){
+                        Intent intent = new Intent(MainActivity.this, ManualControlActivity.class);
+                        startActivity(intent);
+                    }else if(Global.ARMINI_STATUS == ArmStatus.WORKING){
+                        AppUtils.showToastMessage(MainActivity.this, getString(R.string.armini_busy), R.drawable.ic_error, R.color.blue_500);
+
+                    }else if(Global.ARMINI_STATUS == ArmStatus.OFFLINE){
+                        AppUtils.showToastMessage(MainActivity.this, getString(R.string.armini_offline), R.drawable.ic_error, R.color.blue_500);
+
+                    }
                 }
                 new Handler().postDelayed(() -> {
                     drawerLayout.closeDrawers();
                 }, 500);
                 return true;
             }
+
+
         });
 
         mainContent.btnAddScenario.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +197,27 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
             }
         });
 
+    }
+
+    private void reportBugViaEmail() {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"hkardesler1@gmail.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "ARMini - Report Bug");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void signOut() {
+        mAuth.signOut();
+        editor.putBoolean(Global.SIGNED_IN_KEY, false);
+        editor.apply();
+        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void showAddScenarioPopup() {
@@ -221,30 +271,35 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
     }
 
     private void addScenarioToFirebase(String name) {
+        scenarioRef.removeEventListener(scenarioValueListener);
         String scenarioKey = scenarioRef.push().getKey();
         assert scenarioKey != null;
-        scenarioRef.child(scenarioKey).child(Global.FIREBASE_SCENARIO_NAME_KEY).setValue(name);
-        scenarioRef.child(scenarioKey).child(Global.FIREBASE_WORKING_MODE_KEY).setValue(WorkingMode.INFINITE);
-        scenarioRef.child(scenarioKey).child(Global.FIREBASE_LOOP_COUNT_KEY).setValue(0);
-        scenarioRef.child(scenarioKey).child(Global.FIREBASE_LIGHT_OPEN_KEY).setValue(false)
+
+        if(scenarios == null){
+            scenarios = new ArrayList<>();
+        }
+        Scenario scenario = new Scenario(scenarioKey, name, 0, WorkingMode.INFINITE, 1, false);
+
+        scenarioRef.child(scenarioKey).child(Global.FIREBASE_SCENARIO_NAME_KEY).setValue(scenario.getName());
+        scenarioRef.child(scenarioKey).child(Global.FIREBASE_WORKING_MODE_KEY).setValue(scenario.getWorkingMode().getIntValue());
+        scenarioRef.child(scenarioKey).child(Global.FIREBASE_LOOP_COUNT_KEY).setValue(scenario.getLoopCount());
+        scenarioRef.child(scenarioKey).child(Global.FIREBASE_LIGHT_OPEN_KEY).setValue(scenario.isLightOpen())
 
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()) {
-                            if(scenarios == null){
-                                scenarios = new ArrayList<>();
-                            }
-                            scenarios.get(scenarios.size()-1).setId(scenarioKey);
-                            String json = AppUtils.convertJson(scenarios.get(scenarios.size()-1));
+                            String json = AppUtils.convertJson(scenario);
                             Intent i = new Intent(MainActivity.this, ScenarioActivity.class);
                             i.putExtra(Global.SCENARIO_KEY, json);
                             activityResultLauncher.launch(i);
+                            addScenarioValueEventListenerFirebase();
                         }else{
                             AppUtils.showToastMessage(MainActivity.this, getString(R.string.sth_wrong), R.drawable.ic_close, R.color.red);
                         }
                     }
                 });
+
     }
 
     @Override
@@ -326,17 +381,27 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         activityResultLauncher.launch(i);
     }
 
-    private void getScenariosFromFirebase(){
-        scenarioRef.addValueEventListener(new ValueEventListener() {
+    private void addScenarioValueEventListenerFirebase(){
+        scenarioValueListener = scenarioRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 scenarios = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Scenario scenario = new Scenario();
+                    scenario.setId(postSnapshot.getKey());
+                    scenario.setName(postSnapshot.child(Global.FIREBASE_SCENARIO_NAME_KEY).getValue(String.class));
+                    scenario.setLightOpen(Boolean.TRUE.equals(postSnapshot.child(Global.FIREBASE_LIGHT_OPEN_KEY).getValue(Boolean.class)));
+                    scenario.setLoopCount(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_LOOP_COUNT_KEY).getValue(Long.class)).intValue());
+                    int workingMode = Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_WORKING_MODE_KEY).getValue(Long.class)).intValue();
+                    if(workingMode == WorkingMode.INFINITE.getIntValue()){
+                        scenario.setWorkingMode(WorkingMode.INFINITE);
+                    }else if(workingMode == WorkingMode.LOOP.getIntValue()){
+                        scenario.setWorkingMode(WorkingMode.LOOP);
+                    }
 
-                    Scenario scenario = postSnapshot.getValue(Scenario.class);
-                    String key = postSnapshot.getKey();
-                    assert scenario != null;
-                    scenario.setId(key);
+                    scenario.setPositionCount((int)postSnapshot
+                            .child(Global.FIREBASE_POSITIONS_KEY).getChildrenCount());
+
                     scenarios.add(scenario);
                 }
                 setRecyclerView();

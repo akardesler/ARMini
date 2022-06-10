@@ -53,7 +53,7 @@
                     android:layout_height="50dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="15dp"
                     app:srcCompat="@drawable/ic_done_2"
                     app:tint="@color/dark_gray_2" />
 
@@ -778,7 +778,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="180"
+                        android:text="50"
                         android:textColor="@color/gray1"
                         android:textSize="14sp"
                         android:ems="2"/>
@@ -805,14 +805,14 @@
                             android:id="@+id/sliderGripper"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:thumbRadius="12dp"
-                            app:trackColor="@color/gray1"
+                            android:stepSize="1"
+                            android:value="50"
                             android:valueFrom="0"
-                            android:valueTo="180"
-                            android:value="90"
+                            android:valueTo="100"
                             app:thumbColor="@color/dark_gray_2"
+                            app:thumbRadius="12dp"
                             app:tickVisible="false"
-                            android:stepSize="1"/>
+                            app:trackColor="@color/gray1" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -832,7 +832,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="-15dp"
                             android:layout_marginEnd="15dp"
-                            android:text="120"
+                            android:text="100"
                             android:textColor="@color/gray1"
                             android:textSize="14sp" />
 

@@ -59,7 +59,12 @@
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_profile.xml" value="0.1415" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_profile_logo.xml" value="0.1415" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_right_arrow.xml" value="0.189" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_robot_base_shoulder.xml" value="0.264" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_robot_elbow.xml" value="0.264" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_robot_gripper.xml" value="0.264" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_robot_wrist.xml" value="0.2005" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_save.xml" value="0.258" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_secret_key.xml" value="0.264" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_settings.xml" value="0.189" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_signout.xml" value="0.189" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/ic_turkey.xml" value="0.2745" />
@@ -74,9 +79,10 @@
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/seekbar_thumb.xml" value="0.187" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/side_nav_bar.xml" value="0.2745" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/drawable/underline.xml" value="0.2655" />
-        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout-land/fragment_joystick.xml" value="0.1" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout-land/fragment_joystick.xml" value="0.25" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_login.xml" value="0.3625" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_manual_control.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_position.xml" value="0.3484375" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_position_settings.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_profile.xml" value="0.33" />
@@ -85,14 +91,14 @@
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_scenario.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_scenario_settings.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
-        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_sign_up.xml" value="0.3614583333333333" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_splash.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/activity_welcome.xml" value="0.3625" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/app_bar_main.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/content_main.xml" value="0.3625" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/fragment_blank.xml" value="0.3484375" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/fragment_home.xml" value="0.3484375" />
-        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/fragment_joystick.xml" value="0.33" />
+        <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/fragment_joystick.xml" value="0.25" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/fragment_position_slider.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="..\:/Users/hkard/Desktop/ARMiniAndroid/app/src/main/res/layout/fragment_slider.xml" value="0.33" />

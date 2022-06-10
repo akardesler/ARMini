@@ -75,11 +75,10 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ScenarioAdapter.ViewHo
             Scenario scenario = scenarios.get(position);
 
             txtScenarioName.setText(scenario.getName());
-            int positionSize = scenario.getPositions().size();
-            if(scenario.getPositions().size() > 1){
-                txtPositionCount.setText(context.getString(R.string.position_count, positionSize));
+            if(scenario.getPositionCount() > 1){
+                txtPositionCount.setText(context.getString(R.string.position_count, scenario.getPositionCount()));
             }else{
-                txtPositionCount.setText(context.getString(R.string.single_position, positionSize));
+                txtPositionCount.setText(context.getString(R.string.single_position, scenario.getPositionCount()));
             }
             int patternNumber = ThreadLocalRandom.current().nextInt(0, 8);
             TypedArray patternDrawableList = context.getResources().obtainTypedArray(R.array.patterns);
@@ -96,13 +95,4 @@ public class ScenarioAdapter extends RecyclerView.Adapter<ScenarioAdapter.ViewHo
 
     }
 
-    public void update(ArrayList<Scenario> list) {
-        scenarios.clear();
-        scenarios.addAll(list);
-        notifyDataSetChanged();
-    }
-    public void setData(ArrayList<Scenario> list) {
-        scenarios.clear();
-        scenarios.addAll(list);
-    }
 }

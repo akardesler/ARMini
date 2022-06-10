@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,15 +33,20 @@ import com.hkardesler.armini.databinding.ActivityScenarioBinding;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
 import com.hkardesler.armini.impls.PositionItemClickListener;
+import com.hkardesler.armini.models.ArmStatus;
 import com.hkardesler.armini.models.MotorSpeed;
 import com.hkardesler.armini.models.Position;
 import com.hkardesler.armini.models.Scenario;
+import com.hkardesler.armini.models.WorkingMode;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ScenarioActivity extends BaseActivity implements PositionItemClickListener {
     ActivityScenarioBinding binding;
-    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private ActivityResultLauncher<Intent> settingsActivityResultLauncher;
+    private ActivityResultLauncher<Intent> positionActivityResultLauncher;
     Scenario scenario;
     PositionAdapter positionAdapter;
     DatabaseReference positionsRef;
@@ -81,13 +88,22 @@ public class ScenarioActivity extends BaseActivity implements PositionItemClickL
                 String json = AppUtils.convertJson(scenario);
                 Intent i = new Intent(ScenarioActivity.this, ScenarioSettingsActivity.class);
                 i.putExtra(Global.SCENARIO_KEY, json);
-                activityResultLauncher.launch(i);
+                settingsActivityResultLauncher.launch(i);
             }
         });
 
         binding.btnAddPosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(Global.ARMINI_STATUS == ArmStatus.WORKING){
+                    AppUtils.showToastMessage(ScenarioActivity.this, getString(R.string.armini_busy), R.drawable.ic_error, R.color.blue_500);
+                    return;
+                }else if(Global.ARMINI_STATUS == ArmStatus.OFFLINE){
+                    AppUtils.showToastMessage(ScenarioActivity.this, getString(R.string.armini_offline), R.drawable.ic_error, R.color.blue_500);
+                    return;
+                }
+
                 Intent i = new Intent(ScenarioActivity.this, PositionActivity.class);
                 Position position = new Position();
                 position.setKey(positions.size());
@@ -113,14 +129,14 @@ public class ScenarioActivity extends BaseActivity implements PositionItemClickL
                 i.putExtra(Global.NEW_POSITION_KEY, true);
                 i.putExtra(Global.SCENARIO_ID_KEY, scenario.getId());
 
-                activityResultLauncher.launch(i);
+                positionActivityResultLauncher.launch(i);
             }
         });
     }
 
 
     private void initActivityResultLauncher() {
-        activityResultLauncher = registerForActivityResult(
+        settingsActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
@@ -133,14 +149,59 @@ public class ScenarioActivity extends BaseActivity implements PositionItemClickL
                                scenario = gson.fromJson(scenarioJson, type);
                                binding.txtTitle.setText(scenario.getName());
                            }
+
                             boolean scenarioDeleted = data.getBooleanExtra(Global.SCENARIO_DELETED_KEY, false);
                             if(scenarioDeleted)
                                 finishActivity();
+
+                            getPositionsFromFirebase();
+
+                        }
+                    }
+                });
+
+        positionActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            int deletePositionId = data.getIntExtra(Global.DELETE_POSITION_ID, -1);
+                            if(deletePositionId != -1){
+                                deletePosition(deletePositionId);
+                            }
+                            getPositionsFromFirebase();
                         }
                     }
                 });
     }
 
+    private void deletePosition(int positionId){
+
+        for (int i = positionId; i < positions.size(); i++){
+            int finalI = i;
+            positionsRef.child(String.valueOf(positions.get(i).getKey())).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    if(finalI == positions.size()-1){
+                        AppUtils.showToastMessage(ScenarioActivity.this,getString(R.string.position_deleted), R.drawable.ic_done, R.color.green_500);
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    if(finalI == positions.size()-1){
+                        AppUtils.showToastMessage(ScenarioActivity.this, getString(R.string.sth_wrong), R.drawable.ic_close, R.color.red);
+                    }
+                }
+
+            });
+
+        }
+
+    }
     @Override
     public void onBackPressed() {
         finishActivity();
@@ -156,6 +217,15 @@ public class ScenarioActivity extends BaseActivity implements PositionItemClickL
 
     @Override
     public void onItemClicked(int position) {
+
+        if(Global.ARMINI_STATUS == ArmStatus.WORKING){
+            AppUtils.showToastMessage(ScenarioActivity.this, getString(R.string.armini_busy), R.drawable.ic_error, R.color.blue_500);
+            return;
+        }else if(Global.ARMINI_STATUS == ArmStatus.OFFLINE){
+            AppUtils.showToastMessage(ScenarioActivity.this, getString(R.string.armini_offline), R.drawable.ic_error, R.color.blue_500);
+            return;
+        }
+
         Intent i = new Intent(ScenarioActivity.this, PositionActivity.class);
         Position positionObj = positions.get(position);
         String jsonPosition = AppUtils.convertJson(positionObj);
@@ -163,20 +233,76 @@ public class ScenarioActivity extends BaseActivity implements PositionItemClickL
         i.putExtra(Global.NEW_POSITION_KEY, false);
         i.putExtra(Global.SCENARIO_ID_KEY, scenario.getId());
 
-        activityResultLauncher.launch(i);
+        positionActivityResultLauncher.launch(i);
     }
 
     private void getPositionsFromFirebase(){
-        positionsRef.addValueEventListener(new ValueEventListener() {
+        positionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                positions = new ArrayList<>();
+                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+
+                    Position position = new Position();
+
+                    position.setKey(Integer.parseInt(Objects.requireNonNull(postSnapshot.getKey())));
+
+                    int motorSpeed = Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_MOTOR_SPEED_KEY).getValue(Long.class)).intValue();
+                    if(motorSpeed == MotorSpeed.SLOW.getIntValue()){
+                        position.setMotorSpeed(MotorSpeed.SLOW);
+                    }else if(motorSpeed == MotorSpeed.NORMAL.getIntValue()){
+                        position.setMotorSpeed(MotorSpeed.NORMAL);
+                    }else {
+                        position.setMotorSpeed(MotorSpeed.FAST);
+                    }
+
+                    position.setBase(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_BASE_KEY).getValue(Long.class)).intValue());
+                    position.setShoulder(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_SHOULDER_KEY).getValue(Long.class)).intValue());
+                    position.setElbowVertical(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_ELBOW_VER_KEY).getValue(Long.class)).intValue());
+                    position.setElbowHorizontal(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_ELBOW_HOR_KEY).getValue(Long.class)).intValue());
+                    position.setWristVertical(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_WRIST_VER_KEY).getValue(Long.class)).intValue());
+                    position.setWristHorizontal(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_WRIST_HOR_KEY).getValue(Long.class)).intValue());
+                    position.setGripper(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_GRIPPER_KEY).getValue(Long.class)).intValue());
+
+                    positions.add(position);
+                }
+                setRecyclerView();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        /*
+        positionValueListener = positionsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 positions = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Position position = postSnapshot.getValue(Position.class);
-                    String key = postSnapshot.getKey();
-                    assert position != null;
-                    assert key != null;
-                    position.setKey(Long.parseLong(key));
+
+                    Position position = new Position();
+
+                    position.setKey(Integer.parseInt(Objects.requireNonNull(postSnapshot.getKey())));
+
+                    int motorSpeed = Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_MOTOR_SPEED_KEY).getValue(Long.class)).intValue();
+                    if(motorSpeed == MotorSpeed.SLOW.getIntValue()){
+                        position.setMotorSpeed(MotorSpeed.SLOW);
+                    }else if(motorSpeed == MotorSpeed.NORMAL.getIntValue()){
+                        position.setMotorSpeed(MotorSpeed.NORMAL);
+                    }else {
+                        position.setMotorSpeed(MotorSpeed.FAST);
+                    }
+
+                    position.setBase(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_BASE_KEY).getValue(Long.class)).intValue());
+                    position.setShoulder(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_SHOULDER_KEY).getValue(Long.class)).intValue());
+                    position.setElbowVertical(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_ELBOW_VER_KEY).getValue(Long.class)).intValue());
+                    position.setElbowHorizontal(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_ELBOW_HOR_KEY).getValue(Long.class)).intValue());
+                    position.setWristVertical(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_WRIST_VER_KEY).getValue(Long.class)).intValue());
+                    position.setWristHorizontal(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_WRIST_HOR_KEY).getValue(Long.class)).intValue());
+                    position.setGripper(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_GRIPPER_KEY).getValue(Long.class)).intValue());
+
                     positions.add(position);
                 }
                 setRecyclerView();
@@ -189,6 +315,8 @@ public class ScenarioActivity extends BaseActivity implements PositionItemClickL
 
             }
         });
+
+         */
     }
 
     private void setRecyclerView() {

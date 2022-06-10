@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +29,8 @@ import com.hkardesler.armini.R;
 import com.hkardesler.armini.models.User;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
+
+import java.util.Locale;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends BaseActivity {
@@ -45,10 +48,6 @@ public class SplashActivity extends BaseActivity {
             int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
             decorView.setSystemUiVisibility(uiOptions);
         }
-
-        int appLanguageId = prefs.getInt(Global.APP_LANGUAGE_ID_KEY, 0);
-        String langCode = getResources().obtainTypedArray(R.array.language_code).getText(appLanguageId).toString();
-        AppUtils.setLocale(this, langCode);
 
 
         boolean firstSession = prefs.getBoolean(Global.FIRST_SESSION_KEY, true);

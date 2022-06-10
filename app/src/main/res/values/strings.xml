@@ -48,7 +48,7 @@
     <string name="welcome_desc">With this app, you can easly control ARMini robotic arm from anywhere in the world</string>
     <string name="get_started">Get Started</string>
     <string name="menu_profile">Profile</string>
-    <string name="menu_manual_control">Manual Control</string>
+    <string name="manual_control">Manual Control</string>
     <string name="menu_report_bug">Report Bug</string>
     <string name="menu_about">About</string>
     <string name="menu_signout">Sign Out</string>
@@ -123,6 +123,9 @@
     <string name="position_deleted">Position has been deleted!</string>
     <string name="run">Run</string>
     <string name="stop">Stop</string>
-
+    <string name="delete_position_title">Are you sure?</string>
+    <string name="delete_position_desc">All following positions will be deleted</string>
+    <string name="armini_busy">ARMini is busy! Please try again later.</string>
+    <string name="armini_offline">ARMini is offline!</string>
 
 </resources>

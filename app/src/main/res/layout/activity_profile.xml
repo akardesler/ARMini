@@ -120,6 +120,20 @@
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp">
 
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_person"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            app:srcCompat="@drawable/ic_person"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            app:tint="@color/gray1" />
+
                         <EditText
                             android:id="@+id/input_full_name"
                             android:layout_width="match_parent"
@@ -133,9 +147,9 @@
                             android:textCursorDrawable="@null"
                             android:textColor="@color/black"
                             android:theme="@style/Theme.Edittext"
-                            android:drawableStart="@drawable/ic_person"
-                            android:drawablePadding="15dp"
-                            />
+                            android:layout_toEndOf="@id/img_person"/>
+
+                        </RelativeLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -160,7 +174,19 @@
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:background="@color/gray_2">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:id="@+id/img_email"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            app:srcCompat="@drawable/ic_email"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            app:tint="@color/gray1" />
                         <EditText
                             android:id="@+id/input_email"
                             android:layout_width="match_parent"
@@ -175,9 +201,11 @@
                             android:textCursorDrawable="@null"
                             android:textColor="@color/black"
                             android:theme="@style/Theme.Edittext"
-                            android:drawableStart="@drawable/ic_email"
-                            android:drawablePadding="15dp" />
+                            android:layout_toEndOf="@id/img_email"/>
+
+                        </RelativeLayout>
                     </LinearLayout>
+
 
                 </androidx.cardview.widget.CardView>
 
@@ -292,32 +320,49 @@
                         android:paddingEnd="20dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp">
-                        <com.google.android.material.textfield.TextInputLayout
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:passwordToggleEnabled="true"
-                            app:boxBackgroundColor="@android:color/transparent"
-                            android:background="@android:color/transparent"
-                            app:boxStrokeWidth="0dp"
-                            app:boxStrokeWidthFocused="0dp"
-                            app:hintEnabled="false"
-                            >
-                        <EditText
-                            android:id="@+id/input_current_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:background="@null"
-                            android:fontFamily="@font/montserrat_light"
-                            android:hint="@string/current_pass"
-                            android:inputType="textPassword"
-                            android:textSize="15sp"
-                            android:textCursorDrawable="@null"
-                            android:textColor="@color/black"
-                            android:theme="@style/Theme.Edittext"
-                            android:drawableStart="@drawable/ic_password"
-                            android:drawablePadding="15dp"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/img_current_password"
+                                android:layout_width="23dp"
+                                android:layout_height="23dp"
+                                app:srcCompat="@drawable/ic_password"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="15dp"
+                                app:tint="@color/gray1" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    app:passwordToggleEnabled="true"
+                                    app:boxBackgroundColor="@android:color/transparent"
+                                    android:background="@android:color/transparent"
+                                    app:boxStrokeWidth="0dp"
+                                    app:boxStrokeWidthFocused="0dp"
+                                    app:hintEnabled="false"
+                                    android:layout_toEndOf="@id/img_current_password" >
+
+                                    <EditText
+                                        android:id="@+id/input_current_password"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:background="@null"
+                                        android:fontFamily="@font/montserrat_light"
+                                        android:hint="@string/current_pass"
+                                        android:inputType="textPassword"
+                                        android:textSize="15sp"
+                                        android:textCursorDrawable="@null"
+                                        android:textColor="@color/black"
+                                        android:theme="@style/Theme.Edittext"/>
+
+
                         </com.google.android.material.textfield.TextInputLayout>
+                        </RelativeLayout>
+
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -341,6 +386,21 @@
                         android:paddingEnd="20dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_new_password"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            app:srcCompat="@drawable/ic_password"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            app:tint="@color/gray1" />
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -350,7 +410,8 @@
                             app:boxStrokeWidth="0dp"
                             app:boxStrokeWidthFocused="0dp"
                             app:hintEnabled="false"
-                            >
+                            android:layout_toEndOf="@id/img_new_password">
+
                         <EditText
                             android:id="@+id/input_new_password"
                             android:layout_width="match_parent"
@@ -363,10 +424,9 @@
                             android:textCursorDrawable="@null"
                             android:textColor="@color/black"
                             android:theme="@style/Theme.Edittext"
-                            android:drawableStart="@drawable/ic_password"
-                            android:drawablePadding="15dp"
                             />
                         </com.google.android.material.textfield.TextInputLayout>
+                        </RelativeLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -390,6 +450,22 @@
                         android:paddingEnd="20dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_new_password_confirm"
+                            android:layout_width="23dp"
+                            android:layout_height="23dp"
+                            app:srcCompat="@drawable/ic_password"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            app:tint="@color/gray1" />
+
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -399,6 +475,7 @@
                             app:boxStrokeWidth="0dp"
                             app:boxStrokeWidthFocused="0dp"
                             app:hintEnabled="false"
+                            android:layout_toEndOf="@id/img_new_password_confirm"
                             >
                         <EditText
                             android:id="@+id/input_new_password_confirm"
@@ -412,10 +489,9 @@
                             android:textCursorDrawable="@null"
                             android:textColor="@color/black"
                             android:theme="@style/Theme.Edittext"
-                            android:drawableStart="@drawable/ic_password"
-                            android:drawablePadding="15dp"
                             />
                         </com.google.android.material.textfield.TextInputLayout>
+                        </RelativeLayout>
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>

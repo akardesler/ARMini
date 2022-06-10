@@ -147,17 +147,17 @@ public class AppUtils {
     }
 
     public static Position getHomePosition(){
-        return new Position(-1, Global.MOTOR_SPEED_POSITION_VALUE, 90, 0, 90, 90, 90, 90, 45);
+        return new Position(-1, Global.MOTOR_SPEED_POSITION_VALUE, 90, 0, 80, 90, 110, 90, 50);
     }
 
     public static void goToHomePosition(Position position){
         position.setBase(90);
         position.setShoulder(0);
-        position.setElbowVertical(90);
+        position.setElbowVertical(80);
         position.setElbowHorizontal(90);
-        position.setWristVertical(90);
+        position.setWristVertical(110);
         position.setWristHorizontal(90);
-        position.setGripper(45);
+        position.setGripper(50);
     }
 
     public static void putString(Context c, String key, String value){

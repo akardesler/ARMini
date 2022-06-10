@@ -10,6 +10,7 @@ package com.hkardesler.armini.activities;
 
 import androidx.annotation.NonNull;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.KeyEvent;
@@ -61,7 +62,14 @@ public class SignUpActivity extends BaseActivity {
                 }
             }
         });
-
+        binding.btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(SignUpActivity.this, SignInActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
         binding.btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

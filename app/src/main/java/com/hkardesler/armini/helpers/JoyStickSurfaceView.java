@@ -88,30 +88,8 @@ public class JoyStickSurfaceView extends SurfaceView implements SurfaceHolder.Ca
 
     private JoyStick stickState = JoyStick.NONE;
 
-    /**
-     * ----- variables for event managing below here ---------
-     */
     private OnChangeStateListener onChangeStateListener;
 
-    /**
-     * {@code hasFastLoop == false} method:
-     * onJoyStickMoveListener.(float angle, float power, JoyStickSurfaceView.JoyStick state)
-     * will loop only with loopInterval
-     * <p>
-     * {@code hasFastLoop == true} the method will loop with
-     * two different interval.
-     *
-     * @param loopInterval
-     * @param loopFastInterval
-     * <p>
-     * loop interval depends on
-     * @param distance
-     * <-- ignore -->
-     *     minDistance
-     *     <-- slow interval, weak signal -->
-     *         midDistance = (params.width / 2) - offset
-     *         <-- fast interval, strong signal -->
-     */
     private final long LOOP_INTERVAL_DEFAULT = 800; // original 100 ms
     public final static long LOOP_INTERVAL_SLOW = 800;
     public final static long LOOP_INTERVAL_FAST = 100;
@@ -292,29 +270,37 @@ public class JoyStickSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         float midDistance = (params.width / 2) - offset;
         JoyStick state = JoyStick.NONE;
         if (angle >= 247.5 && angle < 292.5) {
-            if (distance > midDistance) return JoyStick.MORE_UP;
-            return JoyStick.UP;
+            if (distance > midDistance) return JoyStick.UP;
+
+            return JoyStick.NONE;
         } else if (angle >= 292.5 && angle < 337.5) {
-            if (distance > midDistance) return JoyStick.MORE_UPRIGHT;
-            return JoyStick.UPRIGHT;
+            if (distance > midDistance) return JoyStick.UPRIGHT;
+
+            return JoyStick.NONE;
         } else if (angle >= 337.5 || angle < 22.5) {
-            if (distance > midDistance) return JoyStick.MORE_RIGHT;
-            return JoyStick.RIGHT;
+            if (distance > midDistance) return JoyStick.RIGHT;
+
+            return JoyStick.NONE;
         } else if (angle >= 22.5 && angle < 67.5) {
-            if (distance > midDistance) return JoyStick.MORE_DOWNRIGHT;
-            return JoyStick.DOWNRIGHT;
+            if (distance > midDistance) return JoyStick.DOWNRIGHT;
+
+            return JoyStick.NONE;
         } else if (angle >= 67.5 && angle < 112.5) {
-            if (distance > midDistance) return JoyStick.MORE_DOWN;
-            return JoyStick.DOWN;
+            if (distance > midDistance) return JoyStick.DOWN;
+
+            return JoyStick.NONE;
         } else if (angle >= 112.5 && angle < 157.5) {
-            if (distance > midDistance) return JoyStick.MORE_DOWNLEFT;
-            return JoyStick.DOWNLEFT;
+            if (distance > midDistance) return JoyStick.DOWNLEFT;
+
+            return JoyStick.NONE;
         } else if (angle >= 157.5 && angle < 202.5) {
-            if (distance > midDistance) return JoyStick.MORE_LEFT;
-            return JoyStick.LEFT;
+            if (distance > midDistance) return JoyStick.LEFT;
+
+            return JoyStick.NONE;
         } else if (angle >= 202.5 && angle < 247.5) {
-            if (distance > midDistance) return JoyStick.MORE_UPLEFT;
-            return JoyStick.UPLEFT;
+            if (distance > midDistance) return JoyStick.UPLEFT;
+
+            return JoyStick.NONE;
         }
         return state;
     }
@@ -508,46 +494,32 @@ public class JoyStickSurfaceView extends SurfaceView implements SurfaceHolder.Ca
     private void drawSignal(Canvas canvas) {
 
         if (!canUseSignal) return;
-        Log.e("stickState",stickState.toString());
 
         switch (stickState) {
-
-            case MORE_UP:
             case UP:
                 canvas.drawBitmap(signalUp, 0, 0, alphaSigPaint);
                 break;
-            case MORE_RIGHT:
             case RIGHT:
                 canvas.drawBitmap(signalRight, 0, 0, alphaSigPaint);
                 break;
-            case MORE_DOWN:
             case DOWN:
                 canvas.drawBitmap(signalDown, 0, 0, alphaSigPaint);
                 break;
-            case MORE_LEFT:
             case LEFT:
                 canvas.drawBitmap(signalLeft, 0, 0, alphaSigPaint);
                 break;
-
-            case MORE_UPLEFT:
             case UPLEFT:
                 canvas.drawBitmap(signalLeft, 0, 0, alphaSigPaint);
                 canvas.drawBitmap(signalUp, 0, 0, alphaSigPaint);
                 break;
-
-            case MORE_UPRIGHT:
             case UPRIGHT:
                 canvas.drawBitmap(signalRight, 0, 0, alphaSigPaint);
                 canvas.drawBitmap(signalUp, 0, 0, alphaSigPaint);
                 break;
-
-            case MORE_DOWNLEFT:
             case DOWNLEFT:
                 canvas.drawBitmap(signalLeft, 0, 0, alphaSigPaint);
                 canvas.drawBitmap(signalDown, 0, 0, alphaSigPaint);
                 break;
-
-            case MORE_DOWNRIGHT:
             case DOWNRIGHT:
                 canvas.drawBitmap(signalRight, 0, 0, alphaSigPaint);
                 canvas.drawBitmap(signalDown, 0, 0, alphaSigPaint);
@@ -786,34 +758,8 @@ public class JoyStickSurfaceView extends SurfaceView implements SurfaceHolder.Ca
         DOWNLEFT,
         LEFT,
         UPLEFT,
-        LONGPUSH,
+        LONGPUSH;
 
-        MORE_UP,
-        MORE_UPRIGHT,
-        MORE_RIGHT,
-        MORE_DOWNRIGHT,
-        MORE_DOWN,
-        MORE_DOWNLEFT,
-        MORE_LEFT,
-        MORE_UPLEFT;
-
-        public static boolean isMore(JoyStick next, JoyStick previous) {
-            boolean isMore = false;
-            if (previous == UP && next == MORE_UP) isMore = true;
-            if (previous == RIGHT && next == MORE_RIGHT) isMore = true;
-            if (previous == DOWN && next == MORE_DOWN) isMore = true;
-            if (previous == LEFT && next == MORE_LEFT) isMore = true;
-            return isMore;
-        }
-
-        public static boolean isLess(JoyStick next, JoyStick previous) {
-            boolean isMore = false;
-            if (next == UP && previous == MORE_UP) isMore = true;
-            if (next == RIGHT && previous == MORE_RIGHT) isMore = true;
-            if (next == DOWN && previous == MORE_DOWN) isMore = true;
-            if (next == LEFT && previous == MORE_LEFT) isMore = true;
-            return isMore;
-        }
     }
 
     private class JoyStickEntity {

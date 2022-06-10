@@ -12,7 +12,7 @@
     <string name="email_hint">Email adresiniz</string>
     <string name="pass_hint">Parolanız</string>
     <string name="remember_me">Beni Hatırla</string>
-    <string name="forgot_pass">Parolanızı mı Unuttunuz?</string>
+    <string name="forgot_pass">Parolamı Unuttum</string>
     <string name="sign_up">Kayıt Ol</string>
     <string name="dont_have_account">Hesabınız yok mu?\u0020</string>
     <string name="sign_up_title">Haydi Başlayalım</string>
@@ -45,7 +45,7 @@
     <string name="welcome_desc">Bu uygulama sayesinde ARMini robotik kolu dünyanın her yerinden kolayca kontrol edebilirsin</string>
     <string name="get_started">Başla</string>
     <string name="menu_profile">Profil</string>
-    <string name="menu_manual_control">Manuel Kontrol</string>
+    <string name="manual_control">Manuel Kontrol</string>
     <string name="menu_report_bug">Hata Bildir</string>
     <string name="menu_about">Hakkında</string>
     <string name="menu_signout">Çıkış Yap</string>
@@ -70,7 +70,7 @@
     <string name="about_text">ARMini, 7 serbestlik derecesine sahip web tabanlı bir robotik koldur. 2021–2022 yılları arasında WSPA Üniversitesi Bilgisayar Bilimleri Diploma Tezi için geliştirilmiştir.</string>
     <string name="working">Çalışıyor</string>
     <string name="available">Müsait</string>
-    <string name="offline">Kapalı</string>
+    <string name="offline">Çevrimdışı</string>
     <string name="operator">Operatör:</string>
     <string name="no_scenario">Hiç Senaryo Yok</string>
     <string name="single_position">%1$d Pozisyon</string>
@@ -97,7 +97,7 @@
     <string name="loop_count_warning">Döngü Sayısı gereklidir!</string>
     <string name="scenario_updated">Senaryo başarıyla güncellendi!</string>
     <string name="scenario_deleted">Senaryo silindi!</string>
-    <string name="position_name">Position #%1$d</string>
+    <string name="position_name">Pozisyon #%1$d</string>
     <string name="motor_speed">Motor Hızı: %1$s</string>
     <string name="joystick">Joystick</string>
     <string name="slider">Slider</string>
@@ -120,5 +120,9 @@
     <string name="position_deleted">Position has been deleted!</string>
     <string name="run">Çalıştır</string>
     <string name="stop">Durdur</string>
+    <string name="delete_position_title">Emin misiniz?</string>
+    <string name="delete_position_desc">Sonraki tüm pozisyonlar silinecek</string>
+    <string name="armini_busy">ARMini şu anda meşgul! Lütfen daha sonra tekrar deneyin.</string>
+    <string name="armini_offline">ARMini şu anda çevrimdışı!</string>
 
 </resources>

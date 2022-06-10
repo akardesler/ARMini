@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hkardesler.armini.R;
 import com.hkardesler.armini.helpers.TileDrawable;
 import com.hkardesler.armini.impls.PositionItemClickListener;
+import com.hkardesler.armini.models.MotorSpeed;
 import com.hkardesler.armini.models.Position;
 import com.hkardesler.armini.models.Scenario;
 import java.util.ArrayList;
@@ -77,7 +78,17 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
             Position scenarioPosition = positions.get(position);
 
             txtPositionName.setText(context.getString(R.string.position_name, scenarioPosition.getKey()+1));
-            txtMotorSpeed.setText(context.getString(R.string.motor_speed, scenarioPosition.getMotorSpeed().getStringValue()));
+
+            String motorSpeedStr;
+            if(scenarioPosition.getMotorSpeed() == MotorSpeed.SLOW){
+                motorSpeedStr = context.getString(R.string.slow);
+            }else if(scenarioPosition.getMotorSpeed() == MotorSpeed.NORMAL){
+                motorSpeedStr = context.getString(R.string.normal);
+            }else{
+                motorSpeedStr = context.getString(R.string.fast);
+            }
+
+            txtMotorSpeed.setText(context.getString(R.string.motor_speed, motorSpeedStr));
 
             if(positions.size() == position+1){
                 imgArrow.setVisibility(View.GONE);
