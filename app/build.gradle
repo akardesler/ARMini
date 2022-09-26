@@ -10,8 +10,8 @@ android {
         applicationId "com.hkardesler.armini"
         minSdk 24
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0.1"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 21
         renderscriptSupportModeEnabled true
@@ -45,19 +45,16 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation platform('com.google.firebase:firebase-bom:30.0.2')
     implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.google.firebase:firebase-database:20.0.5'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation "com.airbnb.android:lottie:3.4.1"
     implementation 'jp.wasabeef:blurry:4.0.1'
-    implementation 'androidx.navigation:navigation-fragment:2.4.2'
-    implementation 'androidx.navigation:navigation-ui:2.4.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
     implementation 'com.squareup.picasso:picasso:2.8'
-    implementation 'com.hivemq:hivemq-mqtt-client:1.2.1'
-
+    implementation 'com.hivemq:hivemq-mqtt-client:1.3.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

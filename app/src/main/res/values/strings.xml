@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 
 ~ /**
-    ~  * Created by Haydar Kardesler on 28.05.2022 00:01
+    ~  * Created by Alper Kardesler on 28.05.2022 00:01
     ~  * Copyright (c) 2022 . All rights reserved.
     ~  */
     -->
 
 <resources>
     <string name="app_name">ARMini</string>
-    <string name="copyright_text" translatable="false">Copyright ©2022 by Haydar Kardesler</string>
+    <string name="copyright_text" translatable="false">Copyright ©2022 by Alper Kardesler</string>
     <string name="repo_link" translatable="false"><a href="https://github.com/hkardesler/ARMini">GitHub</a></string>
     <string name="login_welcome">Welcome to\u0020</string>
     <string name="login_desc">Sign in to continue</string>
@@ -70,8 +70,8 @@
     <string name="cancel">Cancel</string>
     <string name="profile_photo_updated">Your profile photo has been updated!</string>
     <string name="about_title">About ARMini</string>
-    <string name="about_text">ARMini is a web–based robotic arm with 7 degrees of freedom. It made for Diploma Thesis of Computer Science at the WSPA University between 2021–2022.</string>
-    <string name="working">Working</string>
+    <string name="about_text">ARMini is a IoT-Based robotic arm with 7 degrees of freedom. It made for Diploma Thesis of Computer Science at the WSPA University between 2021–2022.</string>
+    <string name="busy">Busy</string>
     <string name="available">Available</string>
     <string name="offline">Offline</string>
     <string name="operator">Operator:</string>
@@ -118,7 +118,7 @@
     <string name="slow">Slow</string>
     <string name="normal">Normal</string>
     <string name="fast">Fast</string>
-    <string name="home_pos">Home Position</string>
+    <string name="home_pos">Go Home</string>
     <string name="try_pos">Try Position</string>
     <string name="position_deleted">Position has been deleted!</string>
     <string name="run">Run</string>
@@ -127,5 +127,7 @@
     <string name="delete_position_desc">All following positions will be deleted</string>
     <string name="armini_busy">ARMini is busy! Please try again later.</string>
     <string name="armini_offline">ARMini is offline!</string>
+    <string name="scenario_stopped">Scenario has been stopped!</string>
+    <string name="waiting_time">Waiting Time (ms)</string>
 
 </resources>

@@ -1,12 +1,15 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 26.05.2022 00:47
+ *  * Created by Alper Kardesler on 26.05.2022 00:47
  *  * Copyright (c) 2022 . All rights reserved.
  *  * Last modified 26.05.2022 00:47
  *
  */
 
 package com.hkardesler.armini.activities;
+
+import static com.hivemq.client.mqtt.MqttGlobalPublishFilter.ALL;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,6 +40,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,13 +48,16 @@ import com.hkardesler.armini.R;
 import com.hkardesler.armini.adapters.ScenarioAdapter;
 import com.hkardesler.armini.databinding.ActivityMainBinding;
 import com.hkardesler.armini.databinding.LayoutContentMainBinding;
+import com.hkardesler.armini.helpers.MQTTBroker;
+import com.hkardesler.armini.impls.MqttBrokerCallback;
 import com.hkardesler.armini.impls.ScenarioItemClickListener;
-import com.hkardesler.armini.models.ArmStatus;
+import com.hkardesler.armini.models.ArmInfo;
+import com.hkardesler.armini.models.ArminiStatusEnum;
 import com.hkardesler.armini.models.Scenario;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
 import com.hkardesler.armini.helpers.TileDrawable;
-import com.hkardesler.armini.models.WorkingMode;
+import com.hkardesler.armini.models.WorkingModeEnum;
 import com.squareup.picasso.Picasso;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -68,7 +75,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-public class MainActivity extends BaseActivity implements ScenarioItemClickListener {
+public class MainActivity extends BaseActivity implements ScenarioItemClickListener, MqttBrokerCallback {
 
     private ActivityMainBinding binding;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -80,7 +87,12 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
     private ArrayList<Scenario> scenarios;
     private DatabaseReference scenarioRef;
     ValueEventListener scenarioValueListener;
-
+    DatabaseReference infoReference;
+    final int intervalCheckArmStatus = 10000;
+    final int armStatusCallbackTimeout = 5000;
+    Handler handlerTimeoutStatus = new Handler();
+    Handler handlerArmStatus = new Handler();
+    MQTTBroker mqttBroker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +104,8 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         rvScenario.setAdapter(null);
 
         scenarioRef = firebaseDatabase.getReference(Global.FIREBASE_USERS_KEY).child(user.getUserId()).child(Global.FIREBASE_SCENARIOS_KEY);
+        infoReference = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_INFO_KEY);
+
         drawerLayout = binding.drawerLayout;
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
 
@@ -99,8 +113,10 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         actionBarDrawerToggle.syncState();
         storageReference = FirebaseStorage.getInstance().getReference();
 
+
+
         addScenarioValueEventListenerFirebase();
-        getUserImageFromFirebase();
+        getUserImageFromFirebase(user.getUserId());
         initActivityResultLauncher();
 
         FrameLayout layoutPattern = binding.navView.getHeaderView(0).findViewById(R.id.layoutPattern);
@@ -116,32 +132,9 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         }
 
         AppUtils.addTextGradient(mainContent.txtTitle, getString(R.string.scenarios));
-
-        Global.ARMINI_STATUS = ArmStatus.AVAILABLE;
-        if(Global.ARMINI_STATUS == ArmStatus.OFFLINE){
-            mainContent.statusAnimation.setAnimation("robot_offline.json");
-            mainContent.animationView.setAnimation("offline.json");
-            mainContent.animationView.cancelAnimation();
-            mainContent.txtStatus.setText(getString(R.string.offline));
-        }else if(Global.ARMINI_STATUS == ArmStatus.AVAILABLE){
-            mainContent.statusAnimation.setAnimation("robot_available.json");
-            mainContent.animationView.setAnimation("connection.json");
-            mainContent.animationView.setProgress(0f);
-            mainContent.animationView.pauseAnimation();
-            mainContent.txtStatus.setText(getString(R.string.available));
-
-        }else if(Global.ARMINI_STATUS == ArmStatus.WORKING){
-            mainContent.statusAnimation.setAnimation("robot_working.json");
-            mainContent.animationView.setAnimation("connection.json");
-            mainContent.animationView.playAnimation();
-            mainContent.txtStatus.setText(getString(R.string.working));
-            mainContent.cardOperator.setVisibility(View.VISIBLE);
-            mainContent.txtOperatorName.setText("Haydar Kardesler");
-
-            mainContent.cardStop.setVisibility(View.VISIBLE);
-
-        }
-
+        addInfoValueEventListener();
+         mqttBroker = new MQTTBroker();
+         mqttBroker.setCallback(this);
 
     }
 
@@ -162,13 +155,13 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
                     showAboutPopup();
                     drawerLayout.closeDrawers();
                 }else if(id == R.id.nav_manual_control){
-                    if(Global.ARMINI_STATUS == ArmStatus.AVAILABLE){
+                    if(ArmInfo.getStatus() == ArminiStatusEnum.AVAILABLE){
                         Intent intent = new Intent(MainActivity.this, ManualControlActivity.class);
                         startActivity(intent);
-                    }else if(Global.ARMINI_STATUS == ArmStatus.WORKING){
+                    }else if(ArmInfo.getStatus() == ArminiStatusEnum.BUSY){
                         AppUtils.showToastMessage(MainActivity.this, getString(R.string.armini_busy), R.drawable.ic_error, R.color.blue_500);
 
-                    }else if(Global.ARMINI_STATUS == ArmStatus.OFFLINE){
+                    }else if(ArmInfo.getStatus() == ArminiStatusEnum.OFFLINE){
                         AppUtils.showToastMessage(MainActivity.this, getString(R.string.armini_offline), R.drawable.ic_error, R.color.blue_500);
 
                     }
@@ -197,6 +190,102 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
             }
         });
 
+        mainContent.btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppUtils.sendMessageViaMQTT(mqttBroker.getClient(), Global.MQTT_STOP_SCENARIO_TOPIC, "");
+                AppUtils.updateInfoOnFirebase(ArminiStatusEnum.AVAILABLE, "", "");
+                AppUtils.showToastMessage(MainActivity.this,getString(R.string.scenario_stopped), R.drawable.ic_done, R.color.green_500);
+
+            }
+        });
+
+    }
+
+
+    // It's triggered when a value is changed in info node on Firebase
+    private void addInfoValueEventListener(){
+
+        infoReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int status = Objects.requireNonNull(snapshot.child(Global.FIREBASE_INFO_ARM_STATUS_KEY).getValue(Long.class)).intValue();
+                ArmInfo.setOperatorId(snapshot.child(Global.FIREBASE_INFO_OPERATOR_ID_KEY).getValue(String.class));
+                ArmInfo.setScenarioId(snapshot.child(Global.SCENARIO_ID_KEY).getValue(String.class));
+                if(status == ArminiStatusEnum.OFFLINE.getIntValue()){
+                    ArmInfo.setStatus(ArminiStatusEnum.OFFLINE);
+                }else if(status == ArminiStatusEnum.AVAILABLE.getIntValue()){
+                    ArmInfo.setStatus(ArminiStatusEnum.AVAILABLE);
+                }else if(status == ArminiStatusEnum.BUSY.getIntValue()){
+                    ArmInfo.setStatus(ArminiStatusEnum.BUSY);
+                }
+                updateStatusLayout();
+                if(ArmInfo.getStatus() != ArminiStatusEnum.OFFLINE){
+                    checkArmStatus();
+                }else{
+                    handlerArmStatus.removeCallbacksAndMessages(null);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void checkArmStatus(){
+        handlerArmStatus.removeCallbacksAndMessages(null);
+        handlerArmStatus.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppUtils.sendMessageViaMQTT(mqttBroker.getClient(), Global.MQTT_ARM_STATUS_REQUEST_TOPIC, "");
+                handlerTimeoutStatus.removeCallbacksAndMessages(null);
+                handlerTimeoutStatus.postDelayed(() -> {
+                    AppUtils.updateInfoOnFirebase(ArminiStatusEnum.OFFLINE, "", "");
+                    handlerTimeoutStatus.removeCallbacksAndMessages(null);
+                }, armStatusCallbackTimeout);
+                handlerArmStatus.postDelayed(this, intervalCheckArmStatus);
+
+            }
+        }, intervalCheckArmStatus);
+
+    }
+
+    private void updateStatusLayout(){
+        if(ArmInfo.getStatus() == ArminiStatusEnum.OFFLINE){
+            mainContent.statusAnimation.setAnimation("robot_offline.json");
+            mainContent.statusAnimation.playAnimation();
+            mainContent.animationView.setAnimation("offline.json");
+            mainContent.animationView.cancelAnimation();
+            mainContent.txtStatus.setText(getString(R.string.offline));
+            mainContent.cardOperator.setVisibility(View.GONE);
+            mainContent.cardStop.setVisibility(View.GONE);
+            setOperatorImage(user.getUserId());
+        }else if(ArmInfo.getStatus() == ArminiStatusEnum.AVAILABLE){
+            mainContent.statusAnimation.setAnimation("robot_available.json");
+            mainContent.statusAnimation.playAnimation();
+            mainContent.animationView.setAnimation("connection.json");
+            mainContent.animationView.setProgress(0f);
+            mainContent.animationView.pauseAnimation();
+            mainContent.txtStatus.setText(getString(R.string.available));
+            mainContent.cardOperator.setVisibility(View.GONE);
+            mainContent.cardStop.setVisibility(View.GONE);
+            setOperatorImage(user.getUserId());
+        }else if(ArmInfo.getStatus() == ArminiStatusEnum.BUSY){
+            mainContent.statusAnimation.setAnimation("robot_working.json");
+            mainContent.statusAnimation.playAnimation();
+            mainContent.animationView.setAnimation("connection.json");
+            mainContent.animationView.playAnimation();
+            mainContent.txtStatus.setText(getString(R.string.busy));
+            mainContent.cardOperator.setVisibility(View.VISIBLE);
+            if(user.getUserId().equals(ArmInfo.getOperatorId())){
+                mainContent.cardStop.setVisibility(View.VISIBLE);
+            }else{
+                mainContent.cardStop.setVisibility(View.GONE);
+            }
+            setOperatorImage(ArmInfo.getOperatorId());
+            setOperatorName(ArmInfo.getOperatorId());
+        }
     }
 
     private void reportBugViaEmail() {
@@ -213,8 +302,7 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
 
     private void signOut() {
         mAuth.signOut();
-        editor.putBoolean(Global.SIGNED_IN_KEY, false);
-        editor.apply();
+        AppUtils.putBool(this, Global.SIGNED_IN_KEY, false);
         Intent intent = new Intent(MainActivity.this, SignInActivity.class);
         startActivity(intent);
         finish();
@@ -278,7 +366,7 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         if(scenarios == null){
             scenarios = new ArrayList<>();
         }
-        Scenario scenario = new Scenario(scenarioKey, name, 0, WorkingMode.INFINITE, 1, false);
+        Scenario scenario = new Scenario(scenarioKey, name, 0, WorkingModeEnum.INFINITE, 1, false);
 
         scenarioRef.child(scenarioKey).child(Global.FIREBASE_SCENARIO_NAME_KEY).setValue(scenario.getName());
         scenarioRef.child(scenarioKey).child(Global.FIREBASE_WORKING_MODE_KEY).setValue(scenario.getWorkingMode().getIntValue());
@@ -325,7 +413,7 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
 
                             boolean refreshProfilePhoto = data.getBooleanExtra(Global.REFRESH_PROFILE_PHOTO, false);
                             if(refreshProfilePhoto){
-                                getUserImageFromFirebase();
+                                getUserImageFromFirebase(user.getUserId());
                             }
                         }
                     }
@@ -352,22 +440,35 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
 
     }
 
-
-    private void getUserImageFromFirebase(){
+    private void getUserImageFromFirebase(String userId){
         View navHeader = binding.navView.getHeaderView(0);
         ImageView imgProfilePhoto = navHeader.findViewById(R.id.imgProfilePhoto);
-        StorageReference fileRef = storageReference.child(Global.FIREBASE_USER_IMAGES_KEY).child(user.getUserId()+".jpg");
+        StorageReference fileRef = storageReference.child(Global.FIREBASE_USER_IMAGES_KEY).child(userId+".jpg");
 
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(imgProfilePhoto);
-                Picasso.get().load(uri).into(mainContent.imgProfilePhoto);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 imgProfilePhoto.setImageDrawable(AppCompatResources.getDrawable(MainActivity.this, R.drawable.ic_profile_person));
+            }
+        });
+    }
+
+    private void setOperatorImage(String operatorId){
+        StorageReference fileRef = storageReference.child(Global.FIREBASE_USER_IMAGES_KEY).child(operatorId+".jpg");
+
+        fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(mainContent.imgProfilePhoto);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
                 mainContent.imgProfilePhoto.setImageDrawable(AppCompatResources.getDrawable(MainActivity.this, R.drawable.ic_profile_person));
             }
         });
@@ -381,6 +482,7 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         activityResultLauncher.launch(i);
     }
 
+    // When a scenario added, it's triggered and update scenario list and Recycler View.
     private void addScenarioValueEventListenerFirebase(){
         scenarioValueListener = scenarioRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -393,10 +495,10 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
                     scenario.setLightOpen(Boolean.TRUE.equals(postSnapshot.child(Global.FIREBASE_LIGHT_OPEN_KEY).getValue(Boolean.class)));
                     scenario.setLoopCount(Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_LOOP_COUNT_KEY).getValue(Long.class)).intValue());
                     int workingMode = Objects.requireNonNull(postSnapshot.child(Global.FIREBASE_WORKING_MODE_KEY).getValue(Long.class)).intValue();
-                    if(workingMode == WorkingMode.INFINITE.getIntValue()){
-                        scenario.setWorkingMode(WorkingMode.INFINITE);
-                    }else if(workingMode == WorkingMode.LOOP.getIntValue()){
-                        scenario.setWorkingMode(WorkingMode.LOOP);
+                    if(workingMode == WorkingModeEnum.INFINITE.getIntValue()){
+                        scenario.setWorkingMode(WorkingModeEnum.INFINITE);
+                    }else if(workingMode == WorkingModeEnum.LOOP.getIntValue()){
+                        scenario.setWorkingMode(WorkingModeEnum.LOOP);
                     }
 
                     scenario.setPositionCount((int)postSnapshot
@@ -427,7 +529,46 @@ public class MainActivity extends BaseActivity implements ScenarioItemClickListe
         }else{
             mainContent.txtListEmpty.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void setOperatorName(String operatorId){
+        DatabaseReference databaseReference =  FirebaseDatabase.getInstance().getReference(Global.FIREBASE_USERS_KEY).child(operatorId).child(Global.FIREBASE_FULL_NAME_KEY);
+        databaseReference.child(Global.FIREBASE_FULL_NAME_KEY).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                   binding.includeMain.txtOperatorName.setText(task.getResult().getValue(String.class));
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+    }
+
+    //MQTT BROKER CALLBACK
+    @Override
+    public void onComplete() {
+        mqttBroker.getClient().subscribeWith()
+                .topicFilter(Global.MQTT_ARM_STATUS_CALLBACK_TOPIC)
+                .send();
+        mqttBroker.getClient().toAsync().publishes(ALL, publish -> {
+            // This method gets callback from MQTT topics
+            if(publish.getTopic().toString().equals(Global.MQTT_ARM_STATUS_CALLBACK_TOPIC)){
+                handlerTimeoutStatus.removeCallbacksAndMessages(null);
+            }
+        });
+    }
+
+    @Override
+    public void onError() {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handlerArmStatus.removeCallbacksAndMessages(null);
+        handlerTimeoutStatus.removeCallbacksAndMessages(null);
+    }
 }

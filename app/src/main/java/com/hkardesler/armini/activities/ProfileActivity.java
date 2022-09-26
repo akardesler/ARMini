@@ -1,6 +1,6 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 1.06.2022 00:27
+ *  * Created by Alper Kardesler on 1.06.2022 00:27
  *  * Copyright (c) 2022 . All rights reserved.
  *
  */
@@ -115,10 +115,8 @@ public class ProfileActivity extends BaseActivity {
                 if(!binding.inputCurrentPassword.getText().toString().trim().isEmpty()){
                     if(binding.inputCurrentPassword.getText().toString().equals(user.getPassword()) && binding.inputNewPassword.getText().toString().equals(binding.inputNewPasswordConfirm.getText().toString())){
                         FirebaseUser userFirebase = FirebaseAuth.getInstance().getCurrentUser();
-
                         if(userFirebase == null)
                             return;
-
                         userFirebase.updatePassword(binding.inputNewPassword.getText().toString())
                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -245,7 +243,7 @@ public class ProfileActivity extends BaseActivity {
         ((View) view.findViewById(R.id.ln_remove)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteImageFromFirebase();
+                deleteImageOnFirebase();
                 mBottomSheetDialog.dismiss();
             }
         });
@@ -269,23 +267,17 @@ public class ProfileActivity extends BaseActivity {
     }
 
     public void takePhoto() {
-        if ( Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
-
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, 1000);
             return;
         }
-
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "New Picture");
         values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera");
         photoUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-
-
         takePhotoResultLauncher.launch(cameraIntent);
-
     }
 
     private void initActivityResultLauncher() {
@@ -312,7 +304,6 @@ public class ProfileActivity extends BaseActivity {
 
     private void uploadImageToFirebase(Uri imageUri){
         binding.progressBar.setVisibility(View.VISIBLE);
-
         StorageReference fileRef = storageReference.child(Global.FIREBASE_USER_IMAGES_KEY).child(user.getUserId()+".jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -321,22 +312,18 @@ public class ProfileActivity extends BaseActivity {
                 binding.progressBar.setVisibility(View.GONE);
                 userHasImage = true;
                 refreshProfilePhoto = true;
-
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 AppUtils.showToastMessage(ProfileActivity.this,getString(R.string.sth_wrong), R.drawable.ic_close, R.color.red);
                 binding.progressBar.setVisibility(View.GONE);
-
             }
         });
     }
 
     private void getUserImageFromFirebase(){
-
         StorageReference fileRef = storageReference.child(Global.FIREBASE_USER_IMAGES_KEY).child(user.getUserId()+".jpg");
-
         fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -349,28 +336,22 @@ public class ProfileActivity extends BaseActivity {
             public void onFailure(@NonNull Exception e) {
                 binding.imgProfilePhoto.setImageDrawable(AppCompatResources.getDrawable(ProfileActivity.this, R.drawable.ic_profile_person));
                 binding.progressBar.setVisibility(View.GONE);
-
             }
         });
     }
 
-    private void deleteImageFromFirebase(){
+    private void deleteImageOnFirebase(){
         StorageReference fileRef = storageReference.child(Global.FIREBASE_USER_IMAGES_KEY).child(user.getUserId()+".jpg");
-
         fileRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-
                     binding.imgProfilePhoto.setImageDrawable(AppCompatResources.getDrawable(ProfileActivity.this, R.drawable.ic_profile_person));
-
                     AppUtils.showToastMessage(ProfileActivity.this,getString(R.string.profile_photo_updated), R.drawable.ic_done, R.color.green_500);
                     userHasImage = false;
                     refreshProfilePhoto = true;
-
                 }else{
                     AppUtils.showToastMessage(ProfileActivity.this,getString(R.string.sth_wrong), R.drawable.ic_close, R.color.red);
-
                 }
             }
         });

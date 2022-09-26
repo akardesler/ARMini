@@ -4,7 +4,7 @@
 License
 -------
 
-Copyright 2022 The Android Open Source Project, Haydar Kardesler.
+Copyright 2022 The Android Open Source Project, Alper Kardesler.
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by Haydar Kardesler on 3.06.2022 01:51
+  ~  * Created by Alper Kardesler on 3.06.2022 01:51
   ~  * Copyright (c) 2022 . All rights reserved.
   ~  */
   -->
@@ -76,14 +76,16 @@
             >
 
             <LinearLayout
+                android:id="@+id/ln_run_stop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:gravity="center"
-                android:background="@drawable/side_nav_bar">
+                android:background="@drawable/gradient_bg_button">
+
                 <ImageView
-                    android:id="@+id/imgPlayStop"
+                    android:id="@+id/imgRunStop"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:padding="7dp"
@@ -91,7 +93,7 @@
                     app:tint="@color/bg_color" />
 
                 <TextView
-                    android:id="@+id/txt_play_stop"
+                    android:id="@+id/txt_run_stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_light"
@@ -220,33 +222,6 @@
             android:layout_below="@id/view_line"
             />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardview_loading"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="0dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/bg_color"
-            android:animateLayoutChanges="true"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/view_line"
-            android:layout_marginTop="40dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center">
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/animationView"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:lottie_fileName="loading.json"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -1,6 +1,6 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 3.06.2022 05:10
+ *  * Created by Alper Kardesler on 3.06.2022 05:10
  *  * Copyright (c) 2022 . All rights reserved.
  *
  */
@@ -8,13 +8,11 @@
 package com.hkardesler.armini.activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,15 +26,17 @@ import com.hkardesler.armini.R;
 import com.hkardesler.armini.databinding.ActivityScenarioSettingsBinding;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
+import com.hkardesler.armini.impls.ArminiStatusChangeListener;
+import com.hkardesler.armini.models.ArmInfo;
+import com.hkardesler.armini.models.ArminiStatusEnum;
 import com.hkardesler.armini.models.Scenario;
-import com.hkardesler.armini.models.User;
-import com.hkardesler.armini.models.WorkingMode;
+import com.hkardesler.armini.models.WorkingModeEnum;
 
 import java.lang.reflect.Type;
 
 public class ScenarioSettingsActivity extends BaseActivity {
     ActivityScenarioSettingsBinding binding;
-    WorkingMode workingMode = WorkingMode.INFINITE;
+    WorkingModeEnum workingMode = WorkingModeEnum.INFINITE;
     boolean isLightOn = false;
     Scenario scenario;
     DatabaseReference scenarioRef;
@@ -53,13 +53,13 @@ public class ScenarioSettingsActivity extends BaseActivity {
         scenario = gson.fromJson(json, type);
 
         scenarioRef = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_USERS_KEY).child(user.getUserId()).child(Global.FIREBASE_SCENARIOS_KEY).child(scenario.getId());
-        if(scenario.getWorkingMode() == WorkingMode.INFINITE){
-            workingMode = WorkingMode.INFINITE;
-            setWorkingMode(WorkingMode.INFINITE);
+        if(scenario.getWorkingMode() == WorkingModeEnum.INFINITE){
+            workingMode = WorkingModeEnum.INFINITE;
+            setWorkingMode(WorkingModeEnum.INFINITE);
 
         }else{
-            workingMode = WorkingMode.LOOP;
-            setWorkingMode(WorkingMode.LOOP);
+            workingMode = WorkingModeEnum.LOOP;
+            setWorkingMode(WorkingModeEnum.LOOP);
         }
 
         isLightOn = scenario.isLightOpen();
@@ -76,14 +76,14 @@ public class ScenarioSettingsActivity extends BaseActivity {
         binding.cardInfinite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setWorkingMode(WorkingMode.INFINITE);
+                setWorkingMode(WorkingModeEnum.INFINITE);
             }
         });
 
         binding.cardLoop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setWorkingMode(WorkingMode.LOOP);
+                setWorkingMode(WorkingModeEnum.LOOP);
             }
         });
 
@@ -136,8 +136,8 @@ public class ScenarioSettingsActivity extends BaseActivity {
         });
     }
 
-    private void setWorkingMode(WorkingMode mode){
-        if(mode == WorkingMode.INFINITE){
+    private void setWorkingMode(WorkingModeEnum mode){
+        if(mode == WorkingModeEnum.INFINITE){
             binding.lnInfinite.setBackground(ContextCompat.getDrawable(this, R.color.dark_gray_2));
             binding.imgInfinite.setColorFilter(ContextCompat.getColor(this, R.color.white));
             binding.txtInfinite.setTextColor(ContextCompat.getColor(this, R.color.white));
@@ -146,7 +146,7 @@ public class ScenarioSettingsActivity extends BaseActivity {
             binding.imgLoop.setColorFilter(ContextCompat.getColor(this, R.color.dark_gray_2));
             binding.txtLoop.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
-            workingMode = WorkingMode.INFINITE;
+            workingMode = WorkingModeEnum.INFINITE;
 
             binding.rltLoopCount.setVisibility(View.GONE);
         }else{
@@ -157,7 +157,7 @@ public class ScenarioSettingsActivity extends BaseActivity {
             binding.lnInfinite.setBackground(ContextCompat.getDrawable(this, R.color.white));
             binding.imgInfinite.setColorFilter(ContextCompat.getColor(this, R.color.dark_gray_2));
             binding.txtInfinite.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
-            workingMode = WorkingMode.LOOP;
+            workingMode = WorkingModeEnum.LOOP;
 
             binding.rltLoopCount.setVisibility(View.VISIBLE);
 

@@ -1,20 +1,21 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 5.06.2022 22:41
+ *  * Created by Alper Kardesler on 2.06.2022 20:27
  *  * Copyright (c) 2022 . All rights reserved.
  *
  */
 
 package com.hkardesler.armini.models;
 
-public enum ControllerMode {
-    JOYSTICK("Joystick", 0),
-    SLIDER("Slider", 1);
+public enum ArminiStatusEnum {
+    OFFLINE("Offline", 0),
+    AVAILABLE("Available", 1),
+    BUSY("Busy", 2);
 
     private final String stringValue;
     private final int intValue;
 
-    ControllerMode(String toString, int value) {
+    ArminiStatusEnum(String toString, int value) {
         stringValue = toString;
         intValue = value;
     }
@@ -26,4 +27,5 @@ public enum ControllerMode {
     public int getIntValue() {
         return intValue;
     }
+
 }

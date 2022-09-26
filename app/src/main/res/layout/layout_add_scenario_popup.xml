@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Created by Haydar Kardesler.
+  ~ Created by Alper Kardesler.
   ~ Copyright (c) 2021. All Rights Reserved.
   -->
 
@@ -15,7 +15,7 @@
         android:id="@+id/rlt_top"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@drawable/side_nav_bar">
+        android:background="@drawable/gradient_bg_button">
 
         <RelativeLayout
             android:layout_width="wrap_content"

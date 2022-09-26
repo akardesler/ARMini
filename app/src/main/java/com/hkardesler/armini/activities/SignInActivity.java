@@ -1,6 +1,6 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 19.05.2022 18:35
+ *  * Created by Alper Kardesler on 19.05.2022 18:35
  *  * Copyright (c) 2022 . All rights reserved.
  *  * Last modified 20.05.2022 22:42
  *
@@ -129,10 +129,8 @@ public class SignInActivity extends BaseActivity {
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             if (task.isSuccessful()) {
                                 DataSnapshot data = task.getResult();
-                                SharedPreferences.Editor editor = prefs.edit();
-                                editor.putBoolean(Global.REMEMBER_ME_KEY, binding.chkRemember.isChecked());
-                                editor.putBoolean(Global.SIGNED_IN_KEY, true);
-                                editor.apply();
+                                AppUtils.putBool(SignInActivity.this,Global.SIGNED_IN_KEY, true);
+                                AppUtils.putBool(SignInActivity.this,Global.REMEMBER_ME_KEY, binding.chkRemember.isChecked());
                                 User user_login = new User(userId, data.child(Global.FIREBASE_FULL_NAME_KEY).getValue(String.class), data.child(Global.FIREBASE_EMAIL_KEY).getValue(String.class), binding.inputPassword.getText().toString());
                                 AppUtils.setUser(SignInActivity.this, user_login);
 

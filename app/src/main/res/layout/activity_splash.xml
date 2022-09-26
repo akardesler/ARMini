@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ /**
-  ~  * Created by Haydar Kardesler on 22.05.2022 05:44
+  ~  * Created by Alper Kardesler on 22.05.2022 05:44
   ~  * Copyright (c) 2022 . All rights reserved.
   ~  * Last modified 22.05.2022 05:44
   ~  */
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:fontFamily="@font/montserrat_light"
-        android:text="By Haydar Kardesler"
-        android:textSize="15dp"
+        android:text="By Alper Kardesler"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

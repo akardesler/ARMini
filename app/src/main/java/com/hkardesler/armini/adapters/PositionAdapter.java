@@ -1,6 +1,6 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 4.06.2022 06:55
+ *  * Created by Alper Kardesler on 4.06.2022 06:55
  *  * Copyright (c) 2022 . All rights reserved.
  *
  */
@@ -9,25 +9,20 @@
 package com.hkardesler.armini.adapters;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Shader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.hkardesler.armini.R;
-import com.hkardesler.armini.helpers.TileDrawable;
 import com.hkardesler.armini.impls.PositionItemClickListener;
-import com.hkardesler.armini.models.MotorSpeed;
+import com.hkardesler.armini.models.MotorSpeedEnum;
 import com.hkardesler.armini.models.Position;
-import com.hkardesler.armini.models.Scenario;
+
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHolder> {
 
@@ -80,9 +75,9 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
             txtPositionName.setText(context.getString(R.string.position_name, scenarioPosition.getKey()+1));
 
             String motorSpeedStr;
-            if(scenarioPosition.getMotorSpeed() == MotorSpeed.SLOW){
+            if(scenarioPosition.getMotorSpeed() == MotorSpeedEnum.SLOW){
                 motorSpeedStr = context.getString(R.string.slow);
-            }else if(scenarioPosition.getMotorSpeed() == MotorSpeed.NORMAL){
+            }else if(scenarioPosition.getMotorSpeed() == MotorSpeedEnum.NORMAL){
                 motorSpeedStr = context.getString(R.string.normal);
             }else{
                 motorSpeedStr = context.getString(R.string.fast);

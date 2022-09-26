@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by Haydar Kardesler on 5.06.2022 06:10
+  ~  * Created by Alper Kardesler on 5.06.2022 06:10
   ~  * Copyright (c) 2022 . All rights reserved.
   ~  */
   -->
@@ -306,6 +306,51 @@
 
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rlt_loop_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ln_motor_speed"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:id="@+id/txt_waiting_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/input_waiting_time"
+                            android:layout_alignBottom="@+id/input_waiting_time"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toStartOf="@id/input_waiting_time"
+                            android:fontFamily="@font/montserrat_light"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="4dp"
+                            android:text="@string/waiting_time"
+                            android:textColor="@color/gradientViolet"
+                            android:textSize="16sp" />
+
+                        <EditText
+                            android:id="@+id/input_waiting_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:ems="5"
+                            android:fontFamily="@font/montserrat_light"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:text="100"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@null"
+                            android:theme="@style/Theme.Edittext" />
+
+                    </RelativeLayout>
+
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>

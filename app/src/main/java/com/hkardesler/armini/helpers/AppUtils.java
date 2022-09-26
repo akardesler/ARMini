@@ -1,12 +1,13 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 20.05.2022 22:48
+ *  * Created by Alper Kardesler on 20.05.2022 22:48
  *  * Copyright (c) 2022 . All rights reserved.
- *  * Last modified 20.05.2022 22:48
  *
  */
 
 package com.hkardesler.armini.helpers;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,9 +30,13 @@ import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hivemq.client.mqtt.mqtt5.Mqtt5BlockingClient;
 import com.hkardesler.armini.R;
+import com.hkardesler.armini.models.ArminiStatusEnum;
 import com.hkardesler.armini.models.Position;
 import com.hkardesler.armini.models.User;
 
@@ -147,15 +152,15 @@ public class AppUtils {
     }
 
     public static Position getHomePosition(){
-        return new Position(-1, Global.MOTOR_SPEED_POSITION_VALUE, 90, 0, 80, 90, 110, 90, 50);
+        return new Position(-1, Global.MOTOR_SPEED_POSITION_VALUE, 100, 90, 0, 70, 90, 90, 90, 50);
     }
 
     public static void goToHomePosition(Position position){
         position.setBase(90);
         position.setShoulder(0);
-        position.setElbowVertical(80);
+        position.setElbowVertical(70);
         position.setElbowHorizontal(90);
-        position.setWristVertical(110);
+        position.setWristVertical(90);
         position.setWristHorizontal(90);
         position.setGripper(50);
     }
@@ -186,5 +191,31 @@ public class AppUtils {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(key, value);
         editor.apply();
+    }
+
+    public static void updateInfoOnFirebase(ArminiStatusEnum arminiStatus){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_INFO_KEY);
+
+        databaseReference.child(Global.FIREBASE_INFO_ARM_STATUS_KEY).setValue(arminiStatus.getIntValue());
+    }
+    public static void updateInfoOnFirebase(ArminiStatusEnum arminiStatus, String operatorId){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_INFO_KEY);
+
+        databaseReference.child(Global.FIREBASE_INFO_ARM_STATUS_KEY).setValue(arminiStatus.getIntValue());
+        databaseReference.child(Global.FIREBASE_INFO_OPERATOR_ID_KEY).setValue(operatorId);
+    }
+    public static void updateInfoOnFirebase(ArminiStatusEnum arminiStatus, String operatorId, String scenarioId){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Global.FIREBASE_INFO_KEY);
+
+        databaseReference.child(Global.FIREBASE_INFO_ARM_STATUS_KEY).setValue(arminiStatus.getIntValue());
+        databaseReference.child(Global.FIREBASE_INFO_OPERATOR_ID_KEY).setValue(operatorId);
+        databaseReference.child(Global.FIREBASE_INFO_SCENARIO_ID_KEY).setValue(scenarioId);
+    }
+
+    public static void sendMessageViaMQTT(Mqtt5BlockingClient client, String topic, String msg){
+        client.publishWith()
+                .topic(topic)
+                .payload(UTF_8.encode(msg))
+                .send();
     }
 }

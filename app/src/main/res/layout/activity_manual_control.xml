@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by Haydar Kardesler on 8.06.2022 04:48
+  ~  * Created by Alper Kardesler on 8.06.2022 04:48
   ~  * Copyright (c) 2022 . All rights reserved.
   ~  */
   -->
@@ -11,7 +11,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.JoystickFragment"
+    tools:context=".fragments.JoystickControlFragment"
     android:background="@color/bg_color">
 
     <RelativeLayout
@@ -170,7 +170,8 @@
             android:id="@+id/ln_joysticks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_below="@id/ln_motor_speed"
+            android:layout_marginTop="40dp"
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -184,8 +185,8 @@
 
                 <com.hkardesler.armini.helpers.JoyStickSurfaceView
                     android:id="@+id/joystickView1"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:background="@drawable/circle"
                     android:padding="20dp" />
 
@@ -211,8 +212,8 @@
 
                 <com.hkardesler.armini.helpers.JoyStickSurfaceView
                     android:id="@+id/joystickView2"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:background="@drawable/circle"
                     android:padding="20dp" />
                 <ImageView
@@ -236,8 +237,8 @@
 
                 <com.hkardesler.armini.helpers.JoyStickSurfaceView
                     android:id="@+id/joystickView3"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:background="@drawable/circle"
                     android:padding="20dp" />
 
@@ -316,10 +317,10 @@
                     android:id="@+id/sliderGripper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:stepSize="1"
-                    android:value="50"
-                    android:valueFrom="0"
-                    android:valueTo="100"
+                    android:stepSize="1.0"
+                    android:value="50.0"
+                    android:valueFrom="0.0"
+                    android:valueTo="110.0"
                     app:thumbColor="@color/dark_gray_2"
                     app:thumbRadius="12dp"
                     app:tickVisible="false"
@@ -344,7 +345,7 @@
             app:tint="@null" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnLigt"
+            android:id="@+id/btn_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -355,6 +356,7 @@
             app:maxImageSize="43dp"
             app:rippleColor="@color/gray_2"
             app:tint="@null" />
+
     </RelativeLayout>
 
 </FrameLayout>

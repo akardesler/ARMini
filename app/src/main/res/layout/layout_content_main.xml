@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /**
-  ~  * Created by Haydar Kardesler on 2.06.2022 18:46
+  ~  * Created by Alper Kardesler on 2.06.2022 18:46
   ~  * Copyright (c) 2022 . All rights reserved.
   ~  */
   -->
@@ -173,7 +173,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/side_nav_bar"
+                                android:background="@drawable/gradient_bg_button"
                                 android:gravity="center"
                                 android:orientation="horizontal"
                                 android:padding="5dp"
@@ -181,7 +181,7 @@
                                 android:paddingEnd="10dp">
 
                                 <ImageView
-                                    android:id="@+id/imgStop"
+                                    android:id="@+id/btn_stop"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:padding="6dp"
@@ -249,7 +249,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/montserrat_light"
-                                android:text="Haydar Kardesler"
+                                android:text="Alper Kardesler"
                                 android:textColor="@color/dark_gray"
                                 android:textSize="15sp"
                                 android:paddingBottom="3dp"

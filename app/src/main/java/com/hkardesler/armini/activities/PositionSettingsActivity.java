@@ -1,46 +1,34 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 5.06.2022 06:10
+ *  * Created by Alper Kardesler on 5.06.2022 06:10
  *  * Copyright (c) 2022 . All rights reserved.
  *
  */
 
 package com.hkardesler.armini.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hkardesler.armini.R;
-import com.hkardesler.armini.databinding.ActivityPositionBinding;
 import com.hkardesler.armini.databinding.ActivityPositionSettingsBinding;
-import com.hkardesler.armini.databinding.ActivityScenarioSettingsBinding;
 import com.hkardesler.armini.helpers.AppUtils;
 import com.hkardesler.armini.helpers.Global;
-import com.hkardesler.armini.models.ControllerMode;
-import com.hkardesler.armini.models.MotorSpeed;
+import com.hkardesler.armini.impls.ArminiStatusChangeListener;
+import com.hkardesler.armini.models.ArmInfo;
+import com.hkardesler.armini.models.ArminiStatusEnum;
+import com.hkardesler.armini.models.ControllerModeEnum;
+import com.hkardesler.armini.models.MotorSpeedEnum;
 import com.hkardesler.armini.models.Position;
-import com.hkardesler.armini.models.Scenario;
-import com.hkardesler.armini.models.User;
-import com.hkardesler.armini.models.WorkingMode;
 
 import java.lang.reflect.Type;
 
@@ -50,7 +38,6 @@ public class PositionSettingsActivity extends BaseActivity {
     int deletePositionId = -1;
     boolean isNewPosition = true;
     boolean controllerModeChanged = false;
-    String scenarioId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +54,7 @@ public class PositionSettingsActivity extends BaseActivity {
         setMotorSpeed(position.getMotorSpeed());
         setControllerMode(Global.CONTROLLER_MODE_POSITION_VALUE);
         setListeners();
+        binding.inputWaitingTime.setText(String.valueOf(position.getWaitingTime()));
 
         if(isNewPosition){
             binding.btnDeletePosition.setVisibility(View.GONE);
@@ -75,7 +63,13 @@ public class PositionSettingsActivity extends BaseActivity {
 
     @Override
     protected void setListeners() {
-
+        ArmInfo.addArminiStatusChangedListener(new ArminiStatusChangeListener() {
+            @Override
+            public void OnArminiStatusChanged(ArminiStatusEnum status) {
+                if(status == ArminiStatusEnum.OFFLINE)
+                    finish();
+            }
+        });
         binding.btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,30 +86,30 @@ public class PositionSettingsActivity extends BaseActivity {
         binding.cardSlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMotorSpeed(MotorSpeed.SLOW);
+                setMotorSpeed(MotorSpeedEnum.SLOW);
             }
         });
 
         binding.cardNormal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMotorSpeed(MotorSpeed.NORMAL);
+                setMotorSpeed(MotorSpeedEnum.NORMAL);
             }
         });
 
         binding.cardFast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setMotorSpeed(MotorSpeed.FAST);
+                setMotorSpeed(MotorSpeedEnum.FAST);
             }
         });
 
         binding.cardJoystick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setControllerMode(ControllerMode.JOYSTICK);
-                Global.CONTROLLER_MODE_POSITION_VALUE = ControllerMode.JOYSTICK;
-                AppUtils.putInt(PositionSettingsActivity.this, Global.CONTROLLER_MODE_POSITION_KEY, ControllerMode.JOYSTICK.getIntValue());
+                setControllerMode(ControllerModeEnum.JOYSTICK);
+                Global.CONTROLLER_MODE_POSITION_VALUE = ControllerModeEnum.JOYSTICK;
+                AppUtils.putInt(PositionSettingsActivity.this, Global.CONTROLLER_MODE_POSITION_KEY, ControllerModeEnum.JOYSTICK.getIntValue());
                 controllerModeChanged = true;
 
             }
@@ -124,18 +118,39 @@ public class PositionSettingsActivity extends BaseActivity {
         binding.cardSlider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setControllerMode(ControllerMode.SLIDER);
-                Global.CONTROLLER_MODE_POSITION_VALUE = ControllerMode.SLIDER;
-                AppUtils.putInt(PositionSettingsActivity.this, Global.CONTROLLER_MODE_POSITION_KEY, ControllerMode.SLIDER.getIntValue());
+                setControllerMode(ControllerModeEnum.SLIDER);
+                Global.CONTROLLER_MODE_POSITION_VALUE = ControllerModeEnum.SLIDER;
+                AppUtils.putInt(PositionSettingsActivity.this, Global.CONTROLLER_MODE_POSITION_KEY, ControllerModeEnum.SLIDER.getIntValue());
                 controllerModeChanged = true;
+            }
+        });
+
+        binding.inputWaitingTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(binding.inputWaitingTime.getText().length() > 0){
+                    position.setWaitingTime(Integer.parseInt(binding.inputWaitingTime.getText().toString()));
+                }else{
+                    position.setWaitingTime(100);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
     }
 
 
-    private void setControllerMode(ControllerMode mode){
-        if(mode == ControllerMode.JOYSTICK){
+    private void setControllerMode(ControllerModeEnum mode){
+        if(mode == ControllerModeEnum.JOYSTICK){
             binding.lnJoystick.setBackground(ContextCompat.getDrawable(this, R.color.dark_gray_2));
             binding.imgJoystick.setColorFilter(ContextCompat.getColor(this, R.color.white));
             binding.txtJoystick.setTextColor(ContextCompat.getColor(this, R.color.white));
@@ -144,7 +159,7 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.imgSlider.setColorFilter(ContextCompat.getColor(this, R.color.dark_gray_2));
             binding.txtSlider.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
-            Global.CONTROLLER_MODE_POSITION_VALUE = ControllerMode.JOYSTICK;
+            Global.CONTROLLER_MODE_POSITION_VALUE = ControllerModeEnum.JOYSTICK;
 
         }else{
             binding.lnSlider.setBackground(ContextCompat.getDrawable(this, R.color.dark_gray_2));
@@ -155,12 +170,12 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.imgJoystick.setColorFilter(ContextCompat.getColor(this, R.color.dark_gray_2));
             binding.txtJoystick.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
-            Global.CONTROLLER_MODE_POSITION_VALUE = ControllerMode.SLIDER;
+            Global.CONTROLLER_MODE_POSITION_VALUE = ControllerModeEnum.SLIDER;
         }
     }
 
-    private void setMotorSpeed(MotorSpeed speed){
-        if(speed == MotorSpeed.SLOW){
+    private void setMotorSpeed(MotorSpeedEnum speed){
+        if(speed == MotorSpeedEnum.SLOW){
             binding.lnSlow.setBackground(ContextCompat.getDrawable(this, R.color.dark_gray_2));
             binding.txtSlow.setTextColor(ContextCompat.getColor(this, R.color.white));
 
@@ -170,10 +185,10 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.lnFast.setBackground(ContextCompat.getDrawable(this, R.color.white));
             binding.txtFast.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
-            Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.SLOW;
-            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.SLOW.getIntValue());
-            position.setMotorSpeed(MotorSpeed.SLOW);
-        }else if(speed == MotorSpeed.NORMAL){
+            Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeedEnum.SLOW;
+            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeedEnum.SLOW.getIntValue());
+            position.setMotorSpeed(MotorSpeedEnum.SLOW);
+        }else if(speed == MotorSpeedEnum.NORMAL){
             binding.lnSlow.setBackground(ContextCompat.getDrawable(this, R.color.white));
             binding.txtSlow.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
@@ -183,9 +198,9 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.lnFast.setBackground(ContextCompat.getDrawable(this, R.color.white));
             binding.txtFast.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
 
-            Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.NORMAL;
-            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.NORMAL.getIntValue());
-            position.setMotorSpeed(MotorSpeed.NORMAL);
+            Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeedEnum.NORMAL;
+            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeedEnum.NORMAL.getIntValue());
+            position.setMotorSpeed(MotorSpeedEnum.NORMAL);
         }else{
             binding.lnSlow.setBackground(ContextCompat.getDrawable(this, R.color.white));
             binding.txtSlow.setTextColor(ContextCompat.getColor(this, R.color.dark_gray_2));
@@ -196,9 +211,9 @@ public class PositionSettingsActivity extends BaseActivity {
             binding.lnFast.setBackground(ContextCompat.getDrawable(this, R.color.dark_gray_2));
             binding.txtFast.setTextColor(ContextCompat.getColor(this, R.color.white));
 
-            Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeed.FAST;
-            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeed.FAST.getIntValue());
-            position.setMotorSpeed(MotorSpeed.FAST);
+            Global.MOTOR_SPEED_POSITION_VALUE = MotorSpeedEnum.FAST;
+            AppUtils.putInt(PositionSettingsActivity.this, Global.MOTOR_SPEED_POSITION_KEY, MotorSpeedEnum.FAST.getIntValue());
+            position.setMotorSpeed(MotorSpeedEnum.FAST);
         }
     }
 

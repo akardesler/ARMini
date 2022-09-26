@@ -1,23 +1,21 @@
 /*
  * *
- *  * Created by Haydar Kardesler on 2.06.2022 20:17
+ *  * Created by Alper Kardesler on 2.06.2022 20:17
  *  * Copyright (c) 2022 . All rights reserved.
  *
  */
 
 package com.hkardesler.armini.models;
 
-import java.util.ArrayList;
-
 public class Scenario {
 
    private String id, name;
    private int positionCount;
-   private WorkingMode workingMode;
+   private WorkingModeEnum workingMode;
     private int loopCount;
     private boolean isLightOpen;
 
-    public Scenario(String id, String name, int positionCount, WorkingMode workingMode, int loopCount, boolean isLightOpen) {
+    public Scenario(String id, String name, int positionCount, WorkingModeEnum workingMode, int loopCount, boolean isLightOpen) {
         this.id = id;
         this.name = name;
         this.positionCount = positionCount;
@@ -44,11 +42,11 @@ public class Scenario {
         this.name = name;
     }
 
-    public WorkingMode getWorkingMode() {
+    public WorkingModeEnum getWorkingMode() {
         return workingMode;
     }
 
-    public void setWorkingMode(WorkingMode workingMode) {
+    public void setWorkingMode(WorkingModeEnum workingMode) {
         this.workingMode = workingMode;
     }
 
