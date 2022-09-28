@@ -1,6 +1,24 @@
 # ARMini
 7 DoF Robotic Arm Android Application
 
+## Screenshots
+
+![Splash](screenshots/splash.jpg)
+![Welcome](screenshots/welcome.jpg)
+![Sign In](screenshots/signin.jpg)
+![Sign Up](screenshots/signup.jpg)
+![Forgot Password](screenshots/forgotpass.jpg)
+![Main](screenshots/main.jpg)
+![Main 2](screenshots/main2.jpg)
+![About](screenshots/about.jpg)
+![Profile](screenshots/profile.jpg)
+![Manual Control](screenshots/manual_control.jpg)
+![Scenario](screenshots/scenario.jpg)
+![Scenario Settings](screenshots/scenario_settings.jpg)
+![Slider Controller](screenshots/slider.jpg)
+![Joystick Controller](screenshots/joystick.jpg)
+![Position Settings](screenshots/position_settings.jpg)
+
 License
 -------
 
